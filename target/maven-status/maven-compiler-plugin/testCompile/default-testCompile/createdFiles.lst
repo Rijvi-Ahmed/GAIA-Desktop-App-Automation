@@ -1,3 +1,10 @@
-gaia\DataEntry_winappdriver.class
-gaia\DataEntry.class
-gaia\DataEntryReports.class
+gaia\pages\DataEntryPage.class
+gaia\tests\BaseTest.class
+gaia\utils\TestData\DataEntryTestData.class
+gaia\pages\BasePage.class
+gaia\tests\DataEntry\SampleTest.class
+gaia\utils\TestData\DataEntryTestData$TestScenarios.class
+gaia\utils\TestData\DataEntryTestData$SampleTestData.class
+gaia\tests\DataEntry\DataEntryBaseTest.class
+gaia\utils\Reports\ReportManager.class
+gaia\utils\Driver\DriverManager.class

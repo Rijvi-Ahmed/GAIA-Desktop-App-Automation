@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="GAIA Suite">
-    <test name="GAIA Desktop Tests">
+<suite name="GAIA Test Suite" parallel="false">
+    
+    <!-- Test Suite for Data Entry Tests -->
+    <test name="Data Entry Tests">
         <classes>
-            <class name="gaia.DataEntryReports" />
+            <class name="gaia.tests.DataEntry.SampleTest"/>
         </classes>
     </test>
+    
+    <!-- Test Suite for Customer Tests -->
+    <!-- <test name="Customer Tests">
+        <classes>
+            <class name="gaia.tests.Customers.CustomerTest"/>
+        </classes>
+    </test> -->
+    
 </suite>
