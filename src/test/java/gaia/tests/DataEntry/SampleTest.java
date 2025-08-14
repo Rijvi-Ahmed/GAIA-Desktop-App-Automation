@@ -12,7 +12,7 @@ public class SampleTest extends DataEntryBaseTest {
         ExtentTest test = createTest(DataEntryTestData.TestScenarios.TEST1_NAME);
 
         try {
-            test.pass("Using existing GAIA session for all testcases");
+            test.pass("Using existing GAIA session for all testcase");
 
             // Session and Samples tab are prepared by DataEntryBaseTest
 
