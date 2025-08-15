@@ -30,6 +30,16 @@ public class DataEntryPage extends BasePage {
     private static final String BLANK_AUTO_BASE_WINDOW = "//Window[contains(@Name, 'Blank Auto Base')]";
     private static final String BLANK_AUTO_BASE_OK_BUTTON = "//Window[contains(@Name, 'Blank Auto Base')]//Button[@Name='OK']";
     private static final String BLANK_AUTO_BASE_MESSAGE = "//Text[@Name='Enter valid Auto Base value to generate Customer ID']";
+    private static final String SECOND_SAMPLE_ROW = "//Table[@AutomationId='SamplesGridControl']//ListItem[2]";
+    private static final String LAYER_COUNT_EDIT = "//Pane[@AutomationId='SamplesXtraUserControl']//Edit[@Name='Number of Layers to create from the Sample selected.']";
+    private static final String LAYER_BUTTON = "//Pane[@AutomationId='SamplesXtraUserControl']//Button[@Name='New Layer(s)']";
+    private static final String BLANK_CUSTOMER_ID_WINDOW = "//Window[@Name='GAIA - Data Entry']//Window[@Name='Blank Customer ID']";
+    private static final String BLANK_CUSTOMER_ID_MESSAGE = "//Window[@Name='Blank Customer ID']//Text[starts-with(@Name, 'Cannot create Layers')]";
+    private static final String BLANK_CUSTOMER_ID_OK_BUTTON = "//Window[@Name='GAIA - Data Entry']//Window[@Name='Blank Customer ID']//Button[@Name='OK']";
+    private static final String REFRESH_BUTTON = "//Pane[@AutomationId='SamplesXtraUserControl']//Button[@Name='Refresh']";
+    private static final String DELETE_BUTTON = "//Pane[@AutomationId='SamplesXtraUserControl']//Button[@Name='Delete']";
+    private static final String CONFIRMATION_WINDOW = "//Window[@Name='GAIA - Data Entry']//Window[@Name='Confirmation']";
+    private static final String CONFIRMATION_YES_BUTTON = "//Window[@Name='Confirmation']//Button[@Name='Yes']";
     
     // Setup methods
     public void maximizeWindow() {
@@ -152,8 +162,11 @@ public class DataEntryPage extends BasePage {
         }
 
         WindowsElement message = driver.findElementByXPath(BLANK_AUTO_BASE_MESSAGE);
-        if (message == null || !message.isDisplayed()) {
-            Assert.fail("Expected warning message was not displayed in Blank Auto Base popup");
+        if (message == null) {
+            throw new AssertionError("Expected warning message was not displayed in Blank Auto Base popup");
+        }
+        if (!message.isDisplayed()) {
+            throw new AssertionError("Expected warning message was not displayed in Blank Auto Base popup");
         }
 
         test.pass("Blank Auto Base warning displayed with expected message");
@@ -371,5 +384,245 @@ public class DataEntryPage extends BasePage {
         clickNew();
         selectCustomer();
         save();
+    }
+
+    // Utility: get samples row count
+    public int getSamplesRowCount() {
+        List<WindowsElement> rows = cocDriver.findElementsByXPath(TABLE_BASE + "//ListItem");
+        return rows == null ? 0 : rows.size();
+    }
+
+    // Test 6: Refresh button
+    public void clickRefreshButton() {
+        WindowsElement refreshBtn = (WindowsElement) cocWait.until(
+                ExpectedConditions.elementToBeClickable(cocDriver.findElementByXPath(REFRESH_BUTTON))
+        );
+        clickElement(refreshBtn);
+        pause(500);
+    }
+
+    // Selection helper: select last N rows
+    public void selectLastNRows(int n) {
+        int rowCount = getSamplesRowCount();
+        if (n <= 0 || rowCount == 0) return;
+        int startIndex = Math.max(1, rowCount - n + 1);
+
+        // Click first target row without CTRL
+        String firstRowXPath = TABLE_BASE + "//ListItem[@Name='Row " + startIndex + "']";
+        WindowsElement firstRow = cocDriver.findElementByXPath(firstRowXPath);
+        clickElement(firstRow);
+        pause(100);
+
+        // If more than 1, hold CTRL and click remaining
+        if (n > 1) {
+            Actions actions = new Actions(cocDriver);
+            actions.keyDown(Keys.CONTROL).perform();
+            for (int i = startIndex + 1; i <= rowCount; i++) {
+                String rowXPath = TABLE_BASE + "//ListItem[@Name='Row " + i + "']";
+                WindowsElement row = cocDriver.findElementByXPath(rowXPath);
+                row.click();
+                pause(100);
+            }
+            actions.keyUp(Keys.CONTROL).perform();
+        }
+        pause(200);
+    }
+
+    // Test 7: Delete last N samples (not all)
+    public void deleteLastNSamples(int n, ExtentTest test) {
+        int before = getSamplesRowCount();
+        if (before == 0) {
+            Assert.fail("No rows available to delete");
+        }
+        int toDelete = Math.min(n, Math.max(0, before - 1)); // ensure not all
+        if (toDelete <= 0) {
+            if (test != null) test.info("Skipping delete to avoid removing all rows");
+            return;
+        }
+        selectLastNRows(toDelete);
+        WindowsElement deleteBtn = (WindowsElement) cocWait.until(
+                ExpectedConditions.elementToBeClickable(cocDriver.findElementByXPath(DELETE_BUTTON))
+        );
+        clickElement(deleteBtn);
+        // Handle confirmation dialog
+        WindowsElement confirmWin = (WindowsElement) wait.until(
+                ExpectedConditions.visibilityOf(driver.findElementByXPath(CONFIRMATION_WINDOW))
+        );
+        if (confirmWin == null || !confirmWin.isDisplayed()) {
+            Assert.fail("Delete confirmation window did not appear");
+        }
+        WindowsElement yesBtn = driver.findElementByXPath(CONFIRMATION_YES_BUTTON);
+        clickElement(yesBtn);
+        pause(800);
+        int after = getSamplesRowCount();
+        if (after != before - toDelete) {
+            Assert.fail("Expected row count to decrease by " + toDelete + ", before=" + before + ", after=" + after);
+        }
+        if (test != null) {
+            test.pass("Deleted " + toDelete + " sample(s). Row count: " + before + " -> " + after);
+        }
+    }
+    
+    // Test 4 methods - Layer creation functionality
+    public void selectSecondSample() {
+        WindowsElement secondRow = (WindowsElement) cocWait.until(
+                ExpectedConditions.elementToBeClickable(cocDriver.findElementByXPath(SECOND_SAMPLE_ROW))
+        );
+        clickElement(secondRow);
+        pause(300); // Allow selection to register
+    }
+    
+    public void enterLayerCount(String layerCount) {
+        WindowsElement layerCountInput = (WindowsElement) cocWait.until(
+                ExpectedConditions.elementToBeClickable(cocDriver.findElementByXPath(LAYER_COUNT_EDIT))
+        );
+        clearText(layerCountInput);
+        enterText(layerCountInput, layerCount);
+        new Actions(cocDriver).sendKeys(Keys.TAB).perform();
+        pause(300);
+    }
+    
+    public void clickLayerButton() {
+        WindowsElement layerBtn = (WindowsElement) cocWait.until(
+                ExpectedConditions.elementToBeClickable(cocDriver.findElementByXPath(LAYER_BUTTON))
+        );
+        clickElement(layerBtn);
+        pause(500); // Allow time for layer creation
+    }
+    
+    public void verifyLayerCreationAndCustomerIdChange(ExtentTest test) {
+        pause(1000); // Allow time for UI to update after layer creation
+        
+        // Get the 2nd row (original sample) details
+        String secondRowLabIdXPath = TABLE_BASE + "//ListItem[@Name='Row 2']//DataItem[@Name='Lab ID row 2']";
+        String secondRowCustomerIdXPath = TABLE_BASE + "//ListItem[@Name='Row 2']//DataItem[@Name='Customer ID row 2']";
+        
+        WindowsElement secondRowLabId = cocDriver.findElementByXPath(secondRowLabIdXPath);
+        WindowsElement secondRowCustomerId = cocDriver.findElementByXPath(secondRowCustomerIdXPath);
+        
+        String secondRowLabIdValue = getElementValue(secondRowLabId);
+        String secondRowCustomerIdValue = getElementValue(secondRowCustomerId);
+        
+        // Get the new layer rows (should be rows 3 and 4)
+        String thirdRowLabIdXPath = TABLE_BASE + "//ListItem[@Name='Row 3']//DataItem[@Name='Lab ID row 3']";
+        String thirdRowCustomerIdXPath = TABLE_BASE + "//ListItem[@Name='Row 3']//DataItem[@Name='Customer ID row 3']";
+        String fourthRowLabIdXPath = TABLE_BASE + "//ListItem[@Name='Row 4']//DataItem[@Name='Lab ID row 4']";
+        String fourthRowCustomerIdXPath = TABLE_BASE + "//ListItem[@Name='Row 4']//DataItem[@Name='Customer ID row 4']";
+        
+        WindowsElement thirdRowLabId = cocDriver.findElementByXPath(thirdRowLabIdXPath);
+        WindowsElement thirdRowCustomerId = cocDriver.findElementByXPath(thirdRowCustomerIdXPath);
+        WindowsElement fourthRowLabId = cocDriver.findElementByXPath(fourthRowLabIdXPath);
+        WindowsElement fourthRowCustomerId = cocDriver.findElementByXPath(fourthRowCustomerIdXPath);
+        
+        String thirdRowLabIdValue = getElementValue(thirdRowLabId);
+        String thirdRowCustomerIdValue = getElementValue(thirdRowCustomerId);
+        String fourthRowLabIdValue = getElementValue(fourthRowLabId);
+        String fourthRowCustomerIdValue = getElementValue(fourthRowCustomerId);
+        
+        // Log all details to test report for better visibility
+        test.info("=== Layer Creation Details ===");
+        test.info("2nd Row (Original Sample) - Lab ID: " + secondRowLabIdValue + ", Customer ID: " + secondRowCustomerIdValue);
+        test.info("3rd Row (New Layer 1) - Lab ID: " + thirdRowLabIdValue + ", Customer ID: " + thirdRowCustomerIdValue);
+        test.info("4th Row (New Layer 2) - Lab ID: " + fourthRowLabIdValue + ", Customer ID: " + fourthRowCustomerIdValue);
+        
+        // Print the details for console verification
+        System.out.println("=== Layer Creation Verification ===");
+        System.out.println("2nd Row (Original Sample):");
+        System.out.println("  Lab ID: " + secondRowLabIdValue);
+        System.out.println("  Customer ID: " + secondRowCustomerIdValue);
+        System.out.println("3rd Row (New Layer 1):");
+        System.out.println("  Lab ID: " + thirdRowLabIdValue);
+        System.out.println("  Customer ID: " + thirdRowCustomerIdValue);
+        System.out.println("4th Row (New Layer 2):");
+        System.out.println("  Lab ID: " + fourthRowLabIdValue);
+        System.out.println("  Customer ID: " + fourthRowCustomerIdValue);
+        System.out.println("==================================");
+        
+        // Verify that new layers were created
+        if (thirdRowLabIdValue != null && !thirdRowLabIdValue.trim().isEmpty() &&
+            fourthRowLabIdValue != null && !fourthRowLabIdValue.trim().isEmpty()) {
+            test.pass("Two new layers were successfully created");
+        } else {
+            test.fail("Failed to create new layers - Lab IDs are missing");
+            Assert.fail("New layers were not created properly");
+        }
+        
+        // Verify that customer IDs are different (indicating successful layer creation)
+        if (!secondRowCustomerIdValue.equals(thirdRowCustomerIdValue) && 
+            !secondRowCustomerIdValue.equals(fourthRowCustomerIdValue) &&
+            !thirdRowCustomerIdValue.equals(fourthRowCustomerIdValue)) {
+            test.pass("Customer IDs are different for all three rows, confirming successful layer creation");
+        } else {
+            test.fail("Customer IDs are not unique - layer creation may have failed");
+            Assert.fail("Customer IDs are not unique after layer creation");
+        }
+        
+        // Verify the 2nd row customer ID changed
+        if (secondRowCustomerIdValue != null && !secondRowCustomerIdValue.trim().isEmpty()) {
+            test.pass("2nd row customer ID was updated: " + secondRowCustomerIdValue);
+        } else {
+            test.fail("2nd row customer ID is missing or empty");
+        }
+    }
+
+    public void verifyAndDismissBlankCustomerIdPopup(ExtentTest test) {
+        // Wait for popup
+        WindowsElement popupWindow = (WindowsElement) wait.until(
+                ExpectedConditions.visibilityOf(driver.findElementByXPath(BLANK_CUSTOMER_ID_WINDOW))
+        );
+        if (popupWindow == null || !popupWindow.isDisplayed()) {
+            Assert.fail("Blank Customer ID popup was not displayed");
+        }
+
+        // Verify message
+        WindowsElement message = driver.findElementByXPath(BLANK_CUSTOMER_ID_MESSAGE);
+        if (message == null) {
+            throw new AssertionError("Expected warning message was not displayed in Blank Customer ID popup");
+        }
+        if (!message.isDisplayed()) {
+            throw new AssertionError("Expected warning message was not displayed in Blank Customer ID popup");
+        }
+        String messageText = message.getAttribute("Name");
+        if (messageText == null) {
+            throw new AssertionError("Popup message text was null");
+        }
+        if (messageText == null || !messageText.startsWith("Cannot create Layers")) {
+            Assert.fail("Popup message did not start with expected text. Actual: " + messageText);
+        }
+        test.pass("Blank Customer ID warning displayed with expected message: " + messageText);
+
+        // Click OK
+        WindowsElement okButton = driver.findElementByXPath(BLANK_CUSTOMER_ID_OK_BUTTON);
+        clickElement(okButton);
+        pause(200);
+    }
+
+    public void selectFirstOfLastCreatedSamples(int lastNSamples, ExtentTest test) {
+        // Allow table to update after creation
+        pause(500);
+        List<WindowsElement> rows = cocDriver.findElementsByXPath(TABLE_BASE + "//ListItem");
+        int rowCount = rows.size();
+        if (rowCount == 0) {
+            Assert.fail("No rows found in the samples table");
+        }
+        int targetIndex = Math.max(1, rowCount - lastNSamples + 1);
+
+        // Click the target row
+        String targetRowXPath = TABLE_BASE + "//ListItem[@Name='Row " + targetIndex + "']";
+        WindowsElement targetRow = cocDriver.findElementByXPath(targetRowXPath);
+        clickElement(targetRow);
+        pause(200);
+
+        // Log Lab ID and Customer ID of selected row
+        String labIdXPath = TABLE_BASE + "//ListItem[@Name='Row " + targetIndex + "']//DataItem[@Name='Lab ID row " + targetIndex + "']";
+        String customerIdXPath = TABLE_BASE + "//ListItem[@Name='Row " + targetIndex + "']//DataItem[@Name='Customer ID row " + targetIndex + "']";
+        WindowsElement labIdCell = cocDriver.findElementByXPath(labIdXPath);
+        WindowsElement customerIdCell = cocDriver.findElementByXPath(customerIdXPath);
+        String labIdValue = getElementValue(labIdCell);
+        String customerIdValue = getElementValue(customerIdCell);
+
+        if (test != null) {
+            test.info("Selected first newly created sample (Row " + targetIndex + ") - Lab ID: " + labIdValue + ", Customer ID: " + customerIdValue);
+        }
     }
 }

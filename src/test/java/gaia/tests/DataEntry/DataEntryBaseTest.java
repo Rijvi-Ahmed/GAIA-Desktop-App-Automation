@@ -17,7 +17,7 @@ public class DataEntryBaseTest extends BaseTest {
         if (DriverManager.getCocDriver() == null) {
             DriverManager.attachCocToMainWindow();
         }
-        dataEntryPage.setupDataEntrySession();
+        //dataEntryPage.setupDataEntrySession();
     }
 
 }

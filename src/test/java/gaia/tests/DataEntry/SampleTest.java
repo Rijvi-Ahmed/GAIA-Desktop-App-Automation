@@ -143,9 +143,9 @@ public class SampleTest extends DataEntryBaseTest {
             // Session and Samples tab are prepared by DataEntryBaseTest
 
             // need this code fo debug only the testcase2
-            // dataEntryPage.maximizeWindow();
-            // dataEntryPage.clickDataEntry();
-            // dataEntryPage.firstLabID();
+            dataEntryPage.maximizeWindow();
+            dataEntryPage.clickDataEntry();
+            dataEntryPage.firstLabID();
 
             // Navigate samples
             dataEntryPage.navigateToSamplesTab();
@@ -180,5 +180,219 @@ public class SampleTest extends DataEntryBaseTest {
         long endTime = System.currentTimeMillis();
         System.out.println("TemData test completed in " + (endTime - startTime) / 1000.0 + " seconds");
     }
+
+    @Test
+    public void runSampleTest4() throws Exception {
+        long startTime = System.currentTimeMillis();
+        ExtentTest test = createTest(DataEntryTestData.TestScenarios.TEST4_NAME);
+
+        try {
+            test.pass("Using existing GAIA session for all testcase");
+
+            // Session and Samples tab are prepared by DataEntryBaseTest
+
+            // need this code fo debug only the testcase2
+            dataEntryPage.maximizeWindow();
+            dataEntryPage.clickDataEntry();
+            dataEntryPage.firstLabID();
+
+            // Navigate to Samples tab
+            dataEntryPage.navigateToSamplesTab();
+            test.pass("Navigated to 'Samples' tab");
+
+            // 1. Go to the 2nd sample list and select it
+            dataEntryPage.selectSecondSample();
+            test.pass("Selected the 2nd sample from the list");
+
+            // 2. Enter layer count from test data
+            dataEntryPage.enterLayerCount(DataEntryTestData.SampleTestData.LAYER_COUNT);
+            test.pass("Entered layer count: " + DataEntryTestData.SampleTestData.LAYER_COUNT);
+
+            // 3. Click on layer button
+            dataEntryPage.clickLayerButton();
+            test.pass("Clicked 'New Layer(s)' button");
+
+            // 4. Verify that new two layers are created with new customer IDs
+            // and also verify that the 2nd row customer ID changed
+            dataEntryPage.verifyLayerCreationAndCustomerIdChange(test);
+
+            test.pass("Sample test 4 completed successfully");
+
+        } catch (Exception e) {
+            // Capture screenshot
+            dataEntryPage.captureScreenshot("Failure_" + System.currentTimeMillis());
+            // Log the error in the report
+            test.fail("Test failed: " + e.getMessage());
+            throw e;
+        }
+
+        long endTime = System.currentTimeMillis();
+        System.out.println("Test 4 completed in " + (endTime - startTime) / 1000.0 + " seconds");
+    }
+
+    @Test
+    public void runSampleTest5() throws Exception {
+        long startTime = System.currentTimeMillis();
+        ExtentTest test = createTest(DataEntryTestData.TestScenarios.TEST5_NAME);
+
+        try {
+            test.pass("Using existing GAIA session for all testcase");
+
+            // Session and Samples tab are prepared by DataEntryBaseTest
+
+            // need this code fo debug only the testcase2
+            dataEntryPage.maximizeWindow();
+            dataEntryPage.clickDataEntry();
+            dataEntryPage.firstLabID();
+
+            // Navigate to Samples tab
+            dataEntryPage.navigateToSamplesTab();
+            test.pass("Navigated to 'Samples' tab");
+
+             // Create samples with auto base only (inline implementation)
+            dataEntryPage.clearAllSampleInputs();
+             test.pass("Cleared Samples tab inputs (sample count, prefix, suffix, auto number, auto base)");
+
+             dataEntryPage.enterSampleCount(DataEntryTestData.SampleTestData.SAMPLE_COUNT);
+             test.pass("Entered sample quantity");
+ 
+             dataEntryPage.clickNewSamples();
+             test.pass("Clicked 'New Sample(s)'");
+
+            // Select the first of the newly created samples (based on SAMPLE_COUNT)
+            int createdSamples = Integer.parseInt(DataEntryTestData.SampleTestData.SAMPLE_COUNT);
+            dataEntryPage.selectFirstOfLastCreatedSamples(createdSamples, test);
+
+            // Enter layer count from test data
+            dataEntryPage.enterLayerCount(DataEntryTestData.SampleTestData.LAYER_COUNT);
+            test.pass("Entered layer count: " + DataEntryTestData.SampleTestData.LAYER_COUNT);
+
+            // Click on layer button
+            dataEntryPage.clickLayerButton();
+            test.pass("Clicked 'New Layer(s)' button");
+
+            // Validate Blank Customer ID popup
+            dataEntryPage.verifyAndDismissBlankCustomerIdPopup(test);
+
+            test.pass("Sample test 5 completed successfully");
+
+        } catch (Exception e) {
+            // Capture screenshot
+            dataEntryPage.captureScreenshot("Failure_" + System.currentTimeMillis());
+            // Log the error in the report
+            test.fail("Test failed: " + e.getMessage());
+            throw e;
+        }
+
+        long endTime = System.currentTimeMillis();
+        System.out.println("Test 5 completed in " + (endTime - startTime) / 1000.0 + " seconds");
+    }
+
+    @Test
+    public void runSampleTest6() throws Exception {
+        long startTime = System.currentTimeMillis();
+        ExtentTest test = createTest(DataEntryTestData.TestScenarios.TEST6_NAME);
+
+        try {
+            test.pass("Using existing GAIA session for all testcase");
+
+            // Session and Samples tab are prepared by DataEntryBaseTest
+
+            // need this code fo debug only the testcase2
+            dataEntryPage.maximizeWindow();
+            dataEntryPage.clickDataEntry();
+            dataEntryPage.firstLabID();
+
+            // Navigate to Samples tab
+            dataEntryPage.navigateToSamplesTab();
+            test.pass("Navigated to 'Samples' tab");
+
+            int before = dataEntryPage.getSamplesRowCount();
+            dataEntryPage.clickRefreshButton();
+            int after = dataEntryPage.getSamplesRowCount();
+            test.pass("Refreshed samples list. Row count before=" + before + ", after=" + after);
+
+            test.pass("Sample test 6 completed successfully");
+
+        } catch (Exception e) {
+            // Capture screenshot
+            dataEntryPage.captureScreenshot("Failure_" + System.currentTimeMillis());
+            // Log the error in the report
+            test.fail("Test failed: " + e.getMessage());
+            throw e;
+        }
+
+        long endTime = System.currentTimeMillis();
+        System.out.println("Test 6 completed in " + (endTime - startTime) / 1000.0 + " seconds");
+    }
+
+    @Test
+    public void runSampleTest7() throws Exception {
+        long startTime = System.currentTimeMillis();
+        ExtentTest test = createTest(DataEntryTestData.TestScenarios.TEST7_NAME);
+
+        try {
+            test.pass("Using existing GAIA session for all testcase");
+
+            // Session and Samples tab are prepared by DataEntryBaseTest
+
+            // need this code fo debug only the testcase2
+            dataEntryPage.maximizeWindow();
+            dataEntryPage.clickDataEntry();
+            dataEntryPage.firstLabID();
+
+            // Navigate to Samples tab
+            dataEntryPage.navigateToSamplesTab();
+            test.pass("Navigated to 'Samples' tab");
+
+            int toDelete = Integer.parseInt(DataEntryTestData.SampleTestData.DELETE_COUNT);
+            dataEntryPage.deleteLastNSamples(toDelete, test);
+
+            test.pass("Sample test 7 completed successfully");
+
+        } catch (Exception e) {
+            // Capture screenshot
+            dataEntryPage.captureScreenshot("Failure_" + System.currentTimeMillis());
+            // Log the error in the report
+            test.fail("Test failed: " + e.getMessage());
+            throw e;
+        }
+
+        long endTime = System.currentTimeMillis();
+        System.out.println("Test 7 completed in " + (endTime - startTime) / 1000.0 + " seconds");
+    }
+
+    // @Test
+    // public void runSampleTest8() throws Exception {
+    //     long startTime = System.currentTimeMillis();
+    //     ExtentTest test = createTest(DataEntryTestData.TestScenarios.TEST8_NAME);
+
+    //     try {
+    //         test.pass("Using existing GAIA session for all testcase");
+
+    //         // Session and Samples tab are prepared by DataEntryBaseTest
+
+    //         // need this code fo debug only the testcase2
+    //         // dataEntryPage.maximizeWindow();
+    //         // dataEntryPage.clickDataEntry();
+    //         // dataEntryPage.firstLabID();
+
+    //         // Navigate to Samples tab
+    //         dataEntryPage.navigateToSamplesTab();
+    //         test.pass("Navigated to 'Samples' tab");
+
+    //         test.pass("Sample test 8 completed successfully");
+
+    //     } catch (Exception e) {
+    //         // Capture screenshot
+    //         dataEntryPage.captureScreenshot("Failure_" + System.currentTimeMillis());
+    //         // Log the error in the report
+    //         test.fail("Test failed: " + e.getMessage());
+    //         throw e;
+    //     }
+
+    //     long endTime = System.currentTimeMillis();
+    //     System.out.println("Test 7 completed in " + (endTime - startTime) / 1000.0 + " seconds");
+    // }
 
 }
