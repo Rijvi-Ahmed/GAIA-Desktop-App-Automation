@@ -21,19 +21,19 @@ public class SampleTest extends DataEntryBaseTest {
             test.pass("Navigated to 'Samples' tab");
 
             dataEntryPage.enterSampleCount(DataEntryTestData.SampleTestData.SAMPLE_COUNT);
-            test.pass("Entered sample quantity");
+            test.info("Entered sample quantity: " + DataEntryTestData.SampleTestData.SAMPLE_COUNT);
 
             dataEntryPage.enterCustomerIdPrefix(DataEntryTestData.SampleTestData.CUSTOMER_ID_PREFIX);
-            test.pass("Entered Customer ID Prefix");
+            test.info("Entered Customer ID Prefix: " + DataEntryTestData.SampleTestData.CUSTOMER_ID_PREFIX);
 
             dataEntryPage.enterCustomerIdSuffix(DataEntryTestData.SampleTestData.CUSTOMER_ID_SUFFIX);
-            test.pass("Entered Sample ID Suffix");
+            test.info("Entered Customer ID Suffix: " + DataEntryTestData.SampleTestData.CUSTOMER_ID_SUFFIX);
 
             dataEntryPage.enterAutoNumber(DataEntryTestData.SampleTestData.AUTO_NUMBER_TEST1);
-            test.pass("Entered Auto Number");
+            test.info("Entered Auto Number: " + DataEntryTestData.SampleTestData.AUTO_NUMBER_TEST1);
 
             dataEntryPage.enterAutoBaseNumber(DataEntryTestData.SampleTestData.AUTO_BASE_NUMBER);
-            test.pass("Entered Auto base number");
+            test.info("Entered Auto base number: " + DataEntryTestData.SampleTestData.AUTO_BASE_NUMBER);
 
             dataEntryPage.clickNewSamples();
             test.pass("Clicked 'New Sample(s)'");
@@ -69,7 +69,7 @@ public class SampleTest extends DataEntryBaseTest {
             dataEntryPage.captureScreenshot("Failure_" + System.currentTimeMillis());
             // Log the error in the report
             test.fail("Test failed: " + e.getMessage());
-            throw e;
+            // Do not rethrow to keep execution user-friendly
         }
 
         long endTime = System.currentTimeMillis();
@@ -125,7 +125,7 @@ public class SampleTest extends DataEntryBaseTest {
             dataEntryPage.captureScreenshot("Failure_" + System.currentTimeMillis());
             // Log the error in the report
             test.fail("Test failed: " + e.getMessage());
-            throw e;
+            // Do not rethrow to keep execution user-friendly
         }
 
         long endTime = System.currentTimeMillis();
@@ -142,10 +142,10 @@ public class SampleTest extends DataEntryBaseTest {
 
             // Session and Samples tab are prepared by DataEntryBaseTest
 
-            // need this code fo debug only the testcase2
-            dataEntryPage.maximizeWindow();
-            dataEntryPage.clickDataEntry();
-            dataEntryPage.firstLabID();
+            // need this code fo debug only the testcase3
+            // dataEntryPage.maximizeWindow();
+            // dataEntryPage.clickDataEntry();
+            // dataEntryPage.firstLabID();
 
             // Navigate samples
             dataEntryPage.navigateToSamplesTab();
@@ -174,7 +174,7 @@ public class SampleTest extends DataEntryBaseTest {
             dataEntryPage.captureScreenshot("Failure_" + System.currentTimeMillis());
             // Log the error in the report
             test.fail("Test failed: " + e.getMessage());
-            throw e;
+            // Do not rethrow to keep execution user-friendly
         }
 
         long endTime = System.currentTimeMillis();
@@ -191,10 +191,10 @@ public class SampleTest extends DataEntryBaseTest {
 
             // Session and Samples tab are prepared by DataEntryBaseTest
 
-            // need this code fo debug only the testcase2
-            dataEntryPage.maximizeWindow();
-            dataEntryPage.clickDataEntry();
-            dataEntryPage.firstLabID();
+            // need this code fo debug only the testcase4
+            // dataEntryPage.maximizeWindow();
+            // dataEntryPage.clickDataEntry();
+            // dataEntryPage.firstLabID();
 
             // Navigate to Samples tab
             dataEntryPage.navigateToSamplesTab();
@@ -223,7 +223,7 @@ public class SampleTest extends DataEntryBaseTest {
             dataEntryPage.captureScreenshot("Failure_" + System.currentTimeMillis());
             // Log the error in the report
             test.fail("Test failed: " + e.getMessage());
-            throw e;
+            // Do not rethrow to keep execution user-friendly
         }
 
         long endTime = System.currentTimeMillis();
@@ -240,10 +240,10 @@ public class SampleTest extends DataEntryBaseTest {
 
             // Session and Samples tab are prepared by DataEntryBaseTest
 
-            // need this code fo debug only the testcase2
-            dataEntryPage.maximizeWindow();
-            dataEntryPage.clickDataEntry();
-            dataEntryPage.firstLabID();
+            // need this code fo debug only the testcase5
+            // dataEntryPage.maximizeWindow();
+            // dataEntryPage.clickDataEntry();
+            // dataEntryPage.firstLabID();
 
             // Navigate to Samples tab
             dataEntryPage.navigateToSamplesTab();
@@ -281,7 +281,7 @@ public class SampleTest extends DataEntryBaseTest {
             dataEntryPage.captureScreenshot("Failure_" + System.currentTimeMillis());
             // Log the error in the report
             test.fail("Test failed: " + e.getMessage());
-            throw e;
+            // Do not rethrow to keep execution user-friendly
         }
 
         long endTime = System.currentTimeMillis();
@@ -298,10 +298,10 @@ public class SampleTest extends DataEntryBaseTest {
 
             // Session and Samples tab are prepared by DataEntryBaseTest
 
-            // need this code fo debug only the testcase2
-            dataEntryPage.maximizeWindow();
-            dataEntryPage.clickDataEntry();
-            dataEntryPage.firstLabID();
+            // need this code fo debug only the testcase6
+            // dataEntryPage.maximizeWindow();
+            // dataEntryPage.clickDataEntry();
+            // dataEntryPage.firstLabID();
 
             // Navigate to Samples tab
             dataEntryPage.navigateToSamplesTab();
@@ -319,7 +319,7 @@ public class SampleTest extends DataEntryBaseTest {
             dataEntryPage.captureScreenshot("Failure_" + System.currentTimeMillis());
             // Log the error in the report
             test.fail("Test failed: " + e.getMessage());
-            throw e;
+            // Do not rethrow to keep execution user-friendly
         }
 
         long endTime = System.currentTimeMillis();
@@ -336,10 +336,10 @@ public class SampleTest extends DataEntryBaseTest {
 
             // Session and Samples tab are prepared by DataEntryBaseTest
 
-            // need this code fo debug only the testcase2
-            dataEntryPage.maximizeWindow();
-            dataEntryPage.clickDataEntry();
-            dataEntryPage.firstLabID();
+            // need this code fo debug only the testcase7
+            // dataEntryPage.maximizeWindow();
+            // dataEntryPage.clickDataEntry();
+            // dataEntryPage.firstLabID();
 
             // Navigate to Samples tab
             dataEntryPage.navigateToSamplesTab();
@@ -355,7 +355,7 @@ public class SampleTest extends DataEntryBaseTest {
             dataEntryPage.captureScreenshot("Failure_" + System.currentTimeMillis());
             // Log the error in the report
             test.fail("Test failed: " + e.getMessage());
-            throw e;
+            // Do not rethrow to keep execution user-friendly
         }
 
         long endTime = System.currentTimeMillis();

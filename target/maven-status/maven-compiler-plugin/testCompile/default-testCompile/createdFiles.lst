@@ -1,10 +1,11 @@
-gaia\pages\DataEntryPage.class
-gaia\tests\BaseTest.class
+gaia\pages\DataEntry\SamplePage.class
+gaia\pages\DataEntry\DataEntryBasePage.class
+gaia\pages\Global\BasePage.class
 gaia\utils\TestData\DataEntryTestData.class
-gaia\pages\BasePage.class
-gaia\tests\DataEntry\SampleTest.class
+gaia\tests\Global\BaseTest.class
 gaia\utils\TestData\DataEntryTestData$TestScenarios.class
 gaia\utils\TestData\DataEntryTestData$SampleTestData.class
+gaia\utils\Driver\DriverManager.class
+gaia\tests\DataEntry\SampleTest.class
 gaia\tests\DataEntry\DataEntryBaseTest.class
 gaia\utils\Reports\ReportManager.class
-gaia\utils\Driver\DriverManager.class

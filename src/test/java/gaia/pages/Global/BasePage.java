@@ -1,4 +1,4 @@
-package gaia.pages;
+package gaia.pages.Global;
 
 import io.appium.java_client.windows.WindowsDriver;
 import io.appium.java_client.windows.WindowsElement;

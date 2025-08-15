@@ -35,7 +35,7 @@
 <a href="#"><span class="badge badge-primary"></span></a>
 </li>
 <li class="m-r-10">
-<a href="#"><span class="badge badge-primary">Aug 15, 2025 03:23:42 PM</span></a>
+<a href="#"><span class="badge badge-primary">Aug 15, 2025 04:28:27 PM</span></a>
 </li>
 </ul>
 </div>
@@ -79,9 +79,9 @@
           tag=""
           device="">
           <div class="test-detail">
-            <p class="name">GAIA - Delete some samples from list (not all)</p>
+            <p class="name">GAIA - Sample creation without applying autobase value to verify customer ID</p>
             <p class="text-sm">
-              <span>3:23:53 PM</span> / <span>00:01:07:602</span>
+              <span>4:28:39 PM</span> / <span>00:01:33:174</span>
               <span class="badge pass-bg log float-right">Pass</span>
             </p>
           </div>
@@ -89,10 +89,10 @@
 <div class="detail-head">
 <div class="p-v-10">
 <div class="info">
-<h5 class="test-status text-pass">GAIA - Delete some samples from list (not all)</h5>
-<span class='badge badge-success'>08.15.2025 3:23:53 PM</span>
-<span class='badge badge-danger'>08.15.2025 3:25:01 PM</span>
-<span class='badge badge-default'>00:01:07:602</span>
+<h5 class="test-status text-pass">GAIA - Sample creation without applying autobase value to verify customer ID</h5>
+<span class='badge badge-success'>08.15.2025 4:28:39 PM</span>
+<span class='badge badge-danger'>08.15.2025 4:30:12 PM</span>
+<span class='badge badge-default'>00:01:33:174</span>
 &middot; <span class='uri-anchor badge badge-default'>#test-id=1</span>
 <span title='Skip to the next failed step' class='badge badge-danger pointer float-right ne ml-1'><i class="fa fa-fast-forward"></i></span>
 <span title='Collapse all nodes' class='badge badge-default pointer float-right ct ml-1'><i class="fa fa-compress"></i></span>
@@ -105,30 +105,58 @@
   <tbody>
       <tr class="event-row">
         <td><span class="badge log pass-bg">Pass</span></td>
-        <td>3:23:53 PM</td>
+        <td>4:28:39 PM</td>
         <td>
-          Using existing GAIA session for all testcase
+          Using existing GAIA session
         </td>
       </tr>
       <tr class="event-row">
         <td><span class="badge log pass-bg">Pass</span></td>
-        <td>3:24:13 PM</td>
+        <td>4:28:58 PM</td>
         <td>
           Navigated to 'Samples' tab
         </td>
       </tr>
       <tr class="event-row">
         <td><span class="badge log pass-bg">Pass</span></td>
-        <td>3:25:01 PM</td>
+        <td>4:29:36 PM</td>
         <td>
-          Deleted 1 sample(s). Row count: 16 -> 15
+          Cleared Samples tab inputs (sample count, prefix, suffix, auto number, auto base)
         </td>
       </tr>
       <tr class="event-row">
         <td><span class="badge log pass-bg">Pass</span></td>
-        <td>3:25:01 PM</td>
+        <td>4:29:43 PM</td>
         <td>
-          Sample test 7 completed successfully
+          Entered Sample quantity: 2
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log pass-bg">Pass</span></td>
+        <td>4:29:50 PM</td>
+        <td>
+          Clicked 'New Sample(s)'
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log pass-bg">Pass</span></td>
+        <td>4:29:56 PM</td>
+        <td>
+          Clicked 'Auto base button'
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log pass-bg">Pass</span></td>
+        <td>4:30:06 PM</td>
+        <td>
+          Blank Auto Base warning displayed with expected message
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log pass-bg">Pass</span></td>
+        <td>4:30:12 PM</td>
+        <td>
+          Sample test 3 completed successfully
         </td>
       </tr>
   </tbody>
@@ -150,13 +178,13 @@
 <div class="col-md-3">
 <div class="card"><div class="card-body">
 <p class="m-b-0">Started</p>
-<h3>Aug 15, 2025 03:23:42 PM</h3>
+<h3>Aug 15, 2025 04:28:27 PM</h3>
 </div></div>
 </div>
 <div class="col-md-3">
 <div class="card"><div class="card-body">
 <p class="m-b-0">Ended</p>
-<h3>Aug 15, 2025 03:25:01 PM</h3>
+<h3>Aug 15, 2025 04:30:12 PM</h3>
 </div></div>
 </div>
 <div class="col-md-3">
@@ -207,7 +235,7 @@
 </div>
 </div>
 <div class="card-footer">
-<div><small data-tooltip='100%'><b>4</b> events passed</small></div>
+<div><small data-tooltip='100%'><b>8</b> events passed</small></div>
 <div>
 <small data-tooltip='0%'><b>0</b> events failed,
 <b data-tooltip='%'>0</b> others
@@ -226,7 +254,7 @@
 </div></div>
 <script>
 var timeline = {
-"GAIA - Delete some samples from list (not all)":67.602
+"GAIA - Sample creation without applying autobase value to verify customer ID":93.174
 };
 </script>
 <div class="row">
@@ -252,7 +280,7 @@ warningGrandChild: 0,
 skipGrandChild: 0,
 infoGrandChild: 0,
 eventsCount: 5,
-passEvents: 4,
+passEvents: 8,
 failEvents: 0,
 warningEvents: 0,
 skipEvents: 0,

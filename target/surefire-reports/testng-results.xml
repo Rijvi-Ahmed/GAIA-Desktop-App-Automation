@@ -2,24 +2,24 @@
 <testng-results ignored="6" total="7" passed="1" failed="0" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2025-08-15T15:23:42 BDT" name="Surefire suite" finished-at="2025-08-15T15:25:03 BDT" duration-ms="80955">
+  <suite started-at="2025-08-15T16:28:27 BDT" name="Surefire suite" finished-at="2025-08-15T16:30:14 BDT" duration-ms="106948">
     <groups>
     </groups>
-    <test started-at="2025-08-15T15:23:42 BDT" name="Surefire test" finished-at="2025-08-15T15:25:03 BDT" duration-ms="80955">
+    <test started-at="2025-08-15T16:28:27 BDT" name="Surefire test" finished-at="2025-08-15T16:30:14 BDT" duration-ms="106948">
       <class name="gaia.tests.DataEntry.SampleTest">
-        <test-method is-config="true" signature="setup()[pri:0, instance:gaia.tests.DataEntry.SampleTest@779dfe55]" started-at="2025-08-15T15:23:42 BDT" name="setup" finished-at="2025-08-15T15:23:53 BDT" duration-ms="11320" status="PASS">
+        <test-method is-config="true" signature="setup()[pri:0, instance:gaia.tests.DataEntry.SampleTest@7b22ec89]" started-at="2025-08-15T16:28:27 BDT" name="setup" finished-at="2025-08-15T16:28:39 BDT" duration-ms="11583" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setup -->
-        <test-method is-config="true" signature="initializeDataEntrySessionOnce()[pri:0, instance:gaia.tests.DataEntry.SampleTest@779dfe55]" started-at="2025-08-15T15:23:53 BDT" name="initializeDataEntrySessionOnce" finished-at="2025-08-15T15:23:53 BDT" duration-ms="10" status="PASS">
+        <test-method is-config="true" signature="initializeDataEntrySessionOnce()[pri:0, instance:gaia.tests.DataEntry.SampleTest@7b22ec89]" started-at="2025-08-15T16:28:39 BDT" name="initializeDataEntrySessionOnce" finished-at="2025-08-15T16:28:39 BDT" duration-ms="10" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- initializeDataEntrySessionOnce -->
-        <test-method signature="runSampleTest7()[pri:0, instance:gaia.tests.DataEntry.SampleTest@779dfe55]" started-at="2025-08-15T15:23:53 BDT" name="runSampleTest7" finished-at="2025-08-15T15:25:01 BDT" duration-ms="67611" status="PASS">
+        <test-method signature="runSampleTest3()[pri:0, instance:gaia.tests.DataEntry.SampleTest@7b22ec89]" started-at="2025-08-15T16:28:39 BDT" name="runSampleTest3" finished-at="2025-08-15T16:30:12 BDT" duration-ms="93186" status="PASS">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- runSampleTest7 -->
-        <test-method is-config="true" signature="tearDown()[pri:0, instance:gaia.tests.DataEntry.SampleTest@779dfe55]" started-at="2025-08-15T15:25:01 BDT" name="tearDown" finished-at="2025-08-15T15:25:03 BDT" duration-ms="1940" status="PASS">
+        </test-method> <!-- runSampleTest3 -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:gaia.tests.DataEntry.SampleTest@7b22ec89]" started-at="2025-08-15T16:30:12 BDT" name="tearDown" finished-at="2025-08-15T16:30:14 BDT" duration-ms="2077" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- tearDown -->

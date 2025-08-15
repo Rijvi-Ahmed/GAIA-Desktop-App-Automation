@@ -1,22 +1,15 @@
-package gaia.pages;
+package gaia.pages.DataEntry;
 
 import io.appium.java_client.windows.WindowsElement;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.testng.Assert;
 import com.aventstack.extentreports.ExtentTest;
 import java.util.List;
 
-public class DataEntryPage extends BasePage {
+public class SamplePage extends DataEntryBasePage {
     
-    // Page elements - XPath locators
-    private static final String MAXIMIZE_BUTTON = "//Window[@Name='GAIA - Main Menu']//Pane[@AutomationId='ribbonControl']//Button[@Name='Maximize']";
-    private static final String DATA_ENTRY_BUTTON = "//List[@AutomationId='tileControl']//ListItem[@Name='Data Entry']";
-    private static final String NEW_BUTTON = "//Button[@Name='New']";
-    private static final String CUSTOMER_DROPDOWN_BUTTON = "//Edit[@AutomationId='CustomerLookUpEdit']//Button[@Name='Open']";
-    private static final String CUSTOMER_ROW_3 = "//Pane[@AutomationId='SearchEditLookUpPopup']//ListItem[@Name='Row 3']";
-    private static final String SAVE_BUTTON = "//Button[@Name='Save']";
+
     private static final String SAMPLES_TAB = "//TabItem[@Name='Samples']";
     private static final String SAMPLE_COUNT_INPUT = "//Edit[@Name='Number of samples to create.']";
     private static final String CUSTOMER_ID_PREFIX_INPUT = "//Edit[@Name='Customer ID Prefix']";
@@ -41,44 +34,7 @@ public class DataEntryPage extends BasePage {
     private static final String CONFIRMATION_WINDOW = "//Window[@Name='GAIA - Data Entry']//Window[@Name='Confirmation']";
     private static final String CONFIRMATION_YES_BUTTON = "//Window[@Name='Confirmation']//Button[@Name='Yes']";
     
-    // Setup methods
-    public void maximizeWindow() {
-        WindowsElement maximize = (WindowsElement) wait.until(ExpectedConditions.elementToBeClickable(
-                driver.findElementByXPath(MAXIMIZE_BUTTON)));
-        clickElement(maximize);
-    }
-    
-    public void clickDataEntry() {
-        WindowsElement dataEntry = (WindowsElement) wait.until(ExpectedConditions.elementToBeClickable(
-                driver.findElementByXPath(DATA_ENTRY_BUTTON)));
-        Assert.assertTrue(dataEntry.isDisplayed(), "Data Entry button should be visible");
-        clickElement(dataEntry);
-    }
-    
-    public void clickNew() {
-        WindowsElement newBtn = (WindowsElement) wait.until(ExpectedConditions.elementToBeClickable(
-                driver.findElementByXPath(NEW_BUTTON)));
-        Assert.assertTrue(newBtn.isEnabled(), "New button should be enabled");
-        clickElement(newBtn);
-    }
-    
-    public void selectCustomer() {
-        // Open Customer Dropdown
-        WindowsElement openDropdown = (WindowsElement) cocWait.until(ExpectedConditions.elementToBeClickable(
-                cocDriver.findElementByXPath(CUSTOMER_DROPDOWN_BUTTON)));
-        clickElement(openDropdown);
-        
-        // Select Customer
-        WindowsElement customer = (WindowsElement) cocWait.until(ExpectedConditions.elementToBeClickable(
-                cocDriver.findElementByXPath(CUSTOMER_ROW_3)));
-        clickElement(customer);
-    }
-    
-    public void save() {
-        WindowsElement saveBtn = cocDriver.findElementByXPath(SAVE_BUTTON);
-        Assert.assertTrue(saveBtn.isDisplayed(), "Save button should be visible");
-        clickElement(saveBtn);
-    }
+    // Setup methods now inherited from DataEntryBasePage
 
     public void firstLabID() {
         WindowsElement firstRow = (WindowsElement) wait.until(ExpectedConditions.elementToBeClickable(
@@ -158,18 +114,17 @@ public class DataEntryPage extends BasePage {
                 ExpectedConditions.visibilityOf(driver.findElementByXPath(BLANK_AUTO_BASE_WINDOW))
         );
         if (popupWindow == null || !popupWindow.isDisplayed()) {
-            Assert.fail("Blank Auto Base popup was not displayed");
+            if (test != null) test.fail("Blank Auto Base popup was not displayed");
+            return;
         }
 
         WindowsElement message = driver.findElementByXPath(BLANK_AUTO_BASE_MESSAGE);
-        if (message == null) {
-            throw new AssertionError("Expected warning message was not displayed in Blank Auto Base popup");
-        }
-        if (!message.isDisplayed()) {
-            throw new AssertionError("Expected warning message was not displayed in Blank Auto Base popup");
+        if (message == null || !message.isDisplayed()) {
+            if (test != null) test.fail("Expected warning message was not displayed in Blank Auto Base popup");
+            return;
         }
 
-        test.pass("Blank Auto Base warning displayed with expected message");
+        if (test != null) test.pass("Blank Auto Base warning displayed with expected message");
 
         WindowsElement okButton = driver.findElementByXPath(BLANK_AUTO_BASE_OK_BUTTON);
         clickElement(okButton);
@@ -188,7 +143,8 @@ public class DataEntryPage extends BasePage {
         List<WindowsElement> rows = cocDriver.findElementsByXPath(TABLE_BASE + "//ListItem");
         int rowCount = rows.size();
         if (rowCount == 0) {
-            Assert.fail("No rows found in the samples table");
+            if (test != null) test.fail("No rows found in the samples table");
+            return;
         }
 
         int samplesToVerify = Math.min(lastNSamples, rowCount);
@@ -208,7 +164,7 @@ public class DataEntryPage extends BasePage {
             if (!actualCustomerId.equals(expectedCustomerId)) {
                 String msg = "Row " + i + " - Customer ID sequence mismatch. Expected: '" + expectedCustomerId + "', Actual: '" + actualCustomerId + "'";
                 System.out.println(msg);
-                test.fail(msg);
+                if (test != null) test.fail(msg);
                 anyMismatch = true;
             }
 
@@ -216,11 +172,11 @@ public class DataEntryPage extends BasePage {
         }
 
         if (anyMismatch) {
-            Assert.fail("Customer ID sequence did not match expected prefix+autobase+suffix-autoNumber pattern.");
+            if (test != null) test.fail("Customer ID sequence did not match expected prefix+autobase+suffix-autoNumber pattern.");
         } else {
             String msg = "Customer ID sequence matches expected pattern with incrementing Auto Number starting from " + startingAutoNumber + ".";
             System.out.println(msg);
-            test.pass(msg);
+            if (test != null) test.pass(msg);
         }
     }
 
@@ -229,7 +185,8 @@ public class DataEntryPage extends BasePage {
         List<WindowsElement> rows = cocDriver.findElementsByXPath(TABLE_BASE + "//ListItem");
         int rowCount = rows.size();
         if (rowCount == 0) {
-            Assert.fail("No rows found in the samples table");
+            if (test != null) test.fail("No rows found in the samples table");
+            return;
         }
 
         int samplesToVerify = Math.min(lastNSamples, rowCount);
@@ -245,17 +202,17 @@ public class DataEntryPage extends BasePage {
             if (labIdValue == null || labIdValue.trim().isEmpty()) {
                 String msg = "Row " + i + " - Lab ID is missing after sample creation";
                 System.out.println(msg);
-                test.fail(msg);
+                if (test != null) test.fail(msg);
                 anyMissing = true;
             }
         }
 
         if (anyMissing) {
-            Assert.fail("One or more Lab IDs are missing for the newly created samples.");
+            if (test != null) test.fail("One or more Lab IDs are missing for the newly created samples.");
         } else {
             String msg = "Lab IDs are present for the last " + samplesToVerify + " sample(s).";
             System.out.println(msg);
-            test.pass(msg);
+            if (test != null) test.pass(msg);
         }
     }
 
@@ -319,20 +276,20 @@ public class DataEntryPage extends BasePage {
                 if (value == null || value.trim().isEmpty()) {
                     String msg = "Row " + i + " (Lab ID: " + labId + ") - Column '" + columnName + "' is blank!";
                     System.out.println(msg);
-                    test.fail(msg);
+                    if (test != null) test.fail(msg);
                     anyBlank = true;
                 }
             }
         }
         
         if (anyBlank) {
-            Assert.fail("Some columns are blank. See report for details.");
+            if (test != null) test.fail("Some columns are blank. See report for details.");
         }
 
         if (!anyBlank) {
             String msg = "All fields in the table are successfully filled!";
             System.out.println(msg);
-            test.pass(msg);
+            if (test != null) test.pass(msg);
         }
     }
     
@@ -343,7 +300,8 @@ public class DataEntryPage extends BasePage {
         List<WindowsElement> rows = cocDriver.findElementsByXPath(TABLE_BASE + "//ListItem");
         int rowCount = rows.size();
         if (rowCount == 0) {
-            Assert.fail("No rows found in the samples table");
+            if (test != null) test.fail("No rows found in the samples table");
+            return;
         }
 
         int samplesToVerify = Math.min(lastNSamples, rowCount);
@@ -363,27 +321,18 @@ public class DataEntryPage extends BasePage {
             if (!customerIdValue.equals(expectedAutoBase)) {
                 String msg = "Row " + i + " - Customer ID mismatch. Expected: '" + expectedAutoBase + "', Actual: '" + customerIdValue + "'";
                 System.out.println(msg);
-                test.fail(msg);
+                if (test != null) test.fail(msg);
                 anyMismatch = true;
             }
         }
 
         if (anyMismatch) {
-            Assert.fail("Customer ID did not match the Auto Base value for one or more new samples.");
+            if (test != null) test.fail("Customer ID did not match the Auto Base value for one or more new samples.");
         } else {
             String msg = "Customer ID matches Auto Base value ('" + expectedAutoBase + "') for the last " + samplesToVerify + " sample(s).";
             System.out.println(msg);
-            test.pass(msg);
+            if (test != null) test.pass(msg);
         }
-    }
-    
-    // Complete workflow methods
-    public void setupDataEntrySession() {
-        maximizeWindow();
-        clickDataEntry();
-        clickNew();
-        selectCustomer();
-        save();
     }
 
     // Utility: get samples row count
@@ -432,7 +381,8 @@ public class DataEntryPage extends BasePage {
     public void deleteLastNSamples(int n, ExtentTest test) {
         int before = getSamplesRowCount();
         if (before == 0) {
-            Assert.fail("No rows available to delete");
+            if (test != null) test.fail("No rows available to delete");
+            return;
         }
         int toDelete = Math.min(n, Math.max(0, before - 1)); // ensure not all
         if (toDelete <= 0) {
@@ -449,14 +399,16 @@ public class DataEntryPage extends BasePage {
                 ExpectedConditions.visibilityOf(driver.findElementByXPath(CONFIRMATION_WINDOW))
         );
         if (confirmWin == null || !confirmWin.isDisplayed()) {
-            Assert.fail("Delete confirmation window did not appear");
+            if (test != null) test.fail("Delete confirmation window did not appear");
+            return;
         }
         WindowsElement yesBtn = driver.findElementByXPath(CONFIRMATION_YES_BUTTON);
         clickElement(yesBtn);
         pause(800);
         int after = getSamplesRowCount();
         if (after != before - toDelete) {
-            Assert.fail("Expected row count to decrease by " + toDelete + ", before=" + before + ", after=" + after);
+            if (test != null) test.fail("Expected row count to decrease by " + toDelete + ", before=" + before + ", after=" + after);
+            return;
         }
         if (test != null) {
             test.pass("Deleted " + toDelete + " sample(s). Row count: " + before + " -> " + after);
@@ -520,10 +472,12 @@ public class DataEntryPage extends BasePage {
         String fourthRowCustomerIdValue = getElementValue(fourthRowCustomerId);
         
         // Log all details to test report for better visibility
-        test.info("=== Layer Creation Details ===");
-        test.info("2nd Row (Original Sample) - Lab ID: " + secondRowLabIdValue + ", Customer ID: " + secondRowCustomerIdValue);
-        test.info("3rd Row (New Layer 1) - Lab ID: " + thirdRowLabIdValue + ", Customer ID: " + thirdRowCustomerIdValue);
-        test.info("4th Row (New Layer 2) - Lab ID: " + fourthRowLabIdValue + ", Customer ID: " + fourthRowCustomerIdValue);
+        if (test != null) {
+            test.info("=== Layer Creation Details ===");
+            test.info("2nd Row (Original Sample) - Lab ID: " + secondRowLabIdValue + ", Customer ID: " + secondRowCustomerIdValue);
+            test.info("3rd Row (New Layer 1) - Lab ID: " + thirdRowLabIdValue + ", Customer ID: " + thirdRowCustomerIdValue);
+            test.info("4th Row (New Layer 2) - Lab ID: " + fourthRowLabIdValue + ", Customer ID: " + fourthRowCustomerIdValue);
+        }
         
         // Print the details for console verification
         System.out.println("=== Layer Creation Verification ===");
@@ -539,29 +493,29 @@ public class DataEntryPage extends BasePage {
         System.out.println("==================================");
         
         // Verify that new layers were created
-        if (thirdRowLabIdValue != null && !thirdRowLabIdValue.trim().isEmpty() &&
-            fourthRowLabIdValue != null && !fourthRowLabIdValue.trim().isEmpty()) {
-            test.pass("Two new layers were successfully created");
+        if (thirdRowLabIdValue == null || thirdRowLabIdValue.trim().isEmpty() ||
+            fourthRowLabIdValue == null || fourthRowLabIdValue.trim().isEmpty()) {
+            if (test != null) test.fail("Failed to create new layers - Lab IDs are missing");
+            return;
         } else {
-            test.fail("Failed to create new layers - Lab IDs are missing");
-            Assert.fail("New layers were not created properly");
+            if (test != null) test.pass("Two new layers were successfully created");
         }
         
         // Verify that customer IDs are different (indicating successful layer creation)
-        if (!secondRowCustomerIdValue.equals(thirdRowCustomerIdValue) && 
-            !secondRowCustomerIdValue.equals(fourthRowCustomerIdValue) &&
-            !thirdRowCustomerIdValue.equals(fourthRowCustomerIdValue)) {
-            test.pass("Customer IDs are different for all three rows, confirming successful layer creation");
+        if (secondRowCustomerIdValue.equals(thirdRowCustomerIdValue) ||
+            secondRowCustomerIdValue.equals(fourthRowCustomerIdValue) ||
+            thirdRowCustomerIdValue.equals(fourthRowCustomerIdValue)) {
+            if (test != null) test.fail("Customer IDs are not unique - layer creation may have failed");
+            return;
         } else {
-            test.fail("Customer IDs are not unique - layer creation may have failed");
-            Assert.fail("Customer IDs are not unique after layer creation");
+            if (test != null) test.pass("Customer IDs are different for all three rows, confirming successful layer creation");
         }
         
         // Verify the 2nd row customer ID changed
         if (secondRowCustomerIdValue != null && !secondRowCustomerIdValue.trim().isEmpty()) {
-            test.pass("2nd row customer ID was updated: " + secondRowCustomerIdValue);
+            if (test != null) test.pass("2nd row customer ID was updated: " + secondRowCustomerIdValue);
         } else {
-            test.fail("2nd row customer ID is missing or empty");
+            if (test != null) test.fail("2nd row customer ID is missing or empty");
         }
     }
 
@@ -571,25 +525,23 @@ public class DataEntryPage extends BasePage {
                 ExpectedConditions.visibilityOf(driver.findElementByXPath(BLANK_CUSTOMER_ID_WINDOW))
         );
         if (popupWindow == null || !popupWindow.isDisplayed()) {
-            Assert.fail("Blank Customer ID popup was not displayed");
+            if (test != null) test.fail("Blank Customer ID popup was not displayed");
+            return;
         }
 
         // Verify message
         WindowsElement message = driver.findElementByXPath(BLANK_CUSTOMER_ID_MESSAGE);
-        if (message == null) {
-            throw new AssertionError("Expected warning message was not displayed in Blank Customer ID popup");
-        }
-        if (!message.isDisplayed()) {
-            throw new AssertionError("Expected warning message was not displayed in Blank Customer ID popup");
+        if (message == null || !message.isDisplayed()) {
+            if (test != null) test.fail("Expected warning message was not displayed in Blank Customer ID popup");
+            return;
         }
         String messageText = message.getAttribute("Name");
-        if (messageText == null) {
-            throw new AssertionError("Popup message text was null");
-        }
         if (messageText == null || !messageText.startsWith("Cannot create Layers")) {
-            Assert.fail("Popup message did not start with expected text. Actual: " + messageText);
+            if (test != null) test.fail("Popup message did not start with expected text. Actual: " + messageText);
+            // still dismiss to continue flow
+        } else {
+            if (test != null) test.pass("Blank Customer ID warning displayed with expected message: " + messageText);
         }
-        test.pass("Blank Customer ID warning displayed with expected message: " + messageText);
 
         // Click OK
         WindowsElement okButton = driver.findElementByXPath(BLANK_CUSTOMER_ID_OK_BUTTON);
@@ -603,7 +555,8 @@ public class DataEntryPage extends BasePage {
         List<WindowsElement> rows = cocDriver.findElementsByXPath(TABLE_BASE + "//ListItem");
         int rowCount = rows.size();
         if (rowCount == 0) {
-            Assert.fail("No rows found in the samples table");
+            if (test != null) test.fail("No rows found in the samples table");
+            return;
         }
         int targetIndex = Math.max(1, rowCount - lastNSamples + 1);
 

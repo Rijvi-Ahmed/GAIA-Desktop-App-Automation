@@ -1,4 +1,4 @@
-package gaia.tests;
+package gaia.tests.Global;
 
 import com.aventstack.extentreports.ExtentTest;
 import org.testng.annotations.AfterClass;
