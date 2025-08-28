@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
-Test set: gaia.tests.DataEntry.SampleTest
+Test set: TestSuite
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 108.0 s -- in gaia.tests.DataEntry.SampleTest
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 298.0 s -- in TestSuite

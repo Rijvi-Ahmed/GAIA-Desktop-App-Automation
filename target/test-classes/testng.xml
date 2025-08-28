@@ -6,6 +6,7 @@
     <test name="Data Entry Tests">
         <classes>
             <class name="gaia.tests.DataEntry.SampleTest"/>
+            <class name="gaia.tests.DataEntry.TEMDataTest"/>
         </classes>
     </test>
     

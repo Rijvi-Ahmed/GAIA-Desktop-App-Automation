@@ -15,6 +15,7 @@ public class DataEntryBasePage extends BasePage {
     private static final String CUSTOMER_DROPDOWN_BUTTON = "//Edit[@AutomationId='CustomerLookUpEdit']//Button[@Name='Open']";
     private static final String CUSTOMER_ROW_3 = "//Pane[@AutomationId='SearchEditLookUpPopup']//ListItem[@Name='Row 3']";
     private static final String SAVE_BUTTON = "//Button[@Name='Save']";
+    private static final String FIRST_LAB_ID = "//Pane[@AutomationId='OrderCollectionView']//DataItem[@Name='Lab Order row 1']";
 
     public void maximizeWindow() {
         WindowsElement maximize = (WindowsElement) wait.until(
@@ -29,6 +30,12 @@ public class DataEntryBasePage extends BasePage {
                         driver.findElementByXPath(DATA_ENTRY_BUTTON)));
         Assert.assertTrue(dataEntry.isDisplayed(), "Data Entry button should be visible");
         clickElement(dataEntry);
+    }
+
+    public void firstLabID() {
+        WindowsElement firstRow = (WindowsElement) wait.until(ExpectedConditions.elementToBeClickable(
+                driver.findElementByXPath(FIRST_LAB_ID)));
+            doubleClickElement(firstRow);
     }
 
     public void clickNew() {

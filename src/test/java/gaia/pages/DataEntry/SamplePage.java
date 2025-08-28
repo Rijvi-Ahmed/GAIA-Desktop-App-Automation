@@ -19,7 +19,6 @@ public class SamplePage extends DataEntryBasePage {
     private static final String NEW_SAMPLES_BUTTON = "//Button[@Name='New Sample(s)']";
     private static final String TABLE_BASE = "//Table[@AutomationId='SamplesGridControl']";
     private static final String AUTO_BASE_BUTTON = "//Pane[@AutomationId='SamplesXtraUserControl']//Button[@Name='Auto Base:']";
-    private static final String FIRST_LAB_ID = "//Pane[@AutomationId='OrderCollectionView']//DataItem[@Name='Lab Order row 1']";
     private static final String BLANK_AUTO_BASE_WINDOW = "//Window[contains(@Name, 'Blank Auto Base')]";
     private static final String BLANK_AUTO_BASE_OK_BUTTON = "//Window[contains(@Name, 'Blank Auto Base')]//Button[@Name='OK']";
     private static final String BLANK_AUTO_BASE_MESSAGE = "//Text[@Name='Enter valid Auto Base value to generate Customer ID']";
@@ -36,11 +35,6 @@ public class SamplePage extends DataEntryBasePage {
     
     // Setup methods now inherited from DataEntryBasePage
 
-    public void firstLabID() {
-        WindowsElement firstRow = (WindowsElement) wait.until(ExpectedConditions.elementToBeClickable(
-                driver.findElementByXPath(FIRST_LAB_ID)));
-            doubleClickElement(firstRow);
-    }
     
     // Sample creation methods
     public void navigateToSamplesTab() {
@@ -478,20 +472,7 @@ public class SamplePage extends DataEntryBasePage {
             test.info("3rd Row (New Layer 1) - Lab ID: " + thirdRowLabIdValue + ", Customer ID: " + thirdRowCustomerIdValue);
             test.info("4th Row (New Layer 2) - Lab ID: " + fourthRowLabIdValue + ", Customer ID: " + fourthRowCustomerIdValue);
         }
-        
-        // Print the details for console verification
-        System.out.println("=== Layer Creation Verification ===");
-        System.out.println("2nd Row (Original Sample):");
-        System.out.println("  Lab ID: " + secondRowLabIdValue);
-        System.out.println("  Customer ID: " + secondRowCustomerIdValue);
-        System.out.println("3rd Row (New Layer 1):");
-        System.out.println("  Lab ID: " + thirdRowLabIdValue);
-        System.out.println("  Customer ID: " + thirdRowCustomerIdValue);
-        System.out.println("4th Row (New Layer 2):");
-        System.out.println("  Lab ID: " + fourthRowLabIdValue);
-        System.out.println("  Customer ID: " + fourthRowCustomerIdValue);
-        System.out.println("==================================");
-        
+
         // Verify that new layers were created
         if (thirdRowLabIdValue == null || thirdRowLabIdValue.trim().isEmpty() ||
             fourthRowLabIdValue == null || fourthRowLabIdValue.trim().isEmpty()) {
