@@ -6,6 +6,7 @@ import gaia.pages.DataEntry.SamplePage;
 
 import org.testng.annotations.BeforeClass;
 import gaia.pages.DataEntry.DataEntryBasePage;
+import gaia.pages.DataEntry.PCMDataPage;
 import gaia.pages.DataEntry.TEMDataPage;
 import gaia.tests.Global.BaseTest;
 import gaia.utils.Driver.DriverManager;
@@ -15,6 +16,7 @@ public class DataEntryBaseTest extends BaseTest {
 	protected SamplePage samplePage;
 	protected DataEntryBasePage dataEntryBasePage;
 	protected TEMDataPage temDataPage;
+	protected PCMDataPage pcmDataPage;
 	private static boolean sessionInitialized = false;
 
 	@BeforeClass 
@@ -28,14 +30,17 @@ public class DataEntryBaseTest extends BaseTest {
 		if (temDataPage == null) {
 			temDataPage = new TEMDataPage();
 		}
+		if (pcmDataPage == null) {
+			pcmDataPage = new PCMDataPage();
+		}
 		if (DriverManager.getCocDriver() == null) {
 			DriverManager.attachCocToMainWindow();
 		}
 		//when run individual test case, need to comment this line
-		if (!sessionInitialized) {
-            dataEntryBasePage.setupDataEntrySession();
-            sessionInitialized = true;
-        }
+		// if (!sessionInitialized) {
+        //     dataEntryBasePage.setupDataEntrySession();
+        //     sessionInitialized = true;
+        // }
 	}
 
 }
