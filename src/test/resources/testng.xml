@@ -7,6 +7,7 @@
         <classes>
             <class name="gaia.tests.DataEntry.SampleTest"/>
             <class name="gaia.tests.DataEntry.TEMDataTest"/>
+            <class name="gaia.tests.DataEntry.PCMDataTest"/>
         </classes>
     </test>
     
