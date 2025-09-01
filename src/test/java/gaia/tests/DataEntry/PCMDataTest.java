@@ -16,13 +16,29 @@ public class PCMDataTest extends DataEntryBaseTest {
         try {
 
             // need this code fo debug only the testcase2
-            pcmDataPage.maximizeWindow();
-            pcmDataPage.clickDataEntry();
-            pcmDataPage.firstLabID();
+            //  pcmDataPage.maximizeWindow();
+            //  pcmDataPage.clickDataEntry();
+            //  pcmDataPage.firstLabID();
 
             // navigate the PCM data tab
             pcmDataPage.navigateToPCMDataTab();
             test.pass("Navigated to 'PCM Data' tab");
+
+            // Fill Customer ID, Pump Rate, Pump Time using per-column filler
+            pcmDataPage.fillColumnIfEmptyInPcm("Customer ID", PCMData.PCMTestData.CUSTOMER_ID_PREFIX_FILL);
+            pcmDataPage.fillColumnIfEmptyInPcm("Pump Rate (LPM) / Volume (L)", PCMData.PCMTestData.PCM_PUMP_RATE);
+            pcmDataPage.fillColumnIfEmptyInPcm("Pump Time (min.)", PCMData.PCMTestData.PCM_PUMP_TIME);
+
+            // Select random values for Volume Unit and Time Unit for each row
+            pcmDataPage.selectRandomVolumeUnitForAllRows(test);
+            test.pass("Selected random Volume Unit for all rows");
+            pcmDataPage.selectRandomTimeUnitForAllRows(test);
+            test.pass("Selected random Time Unit for all rows");
+
+            // Validate table after filling
+            samplePage.validateTableFilled(PCMData.PCMTestData.COLUMNS_TO_CHECK, test);
+
+            test.pass("Filled all value in the PCM data table successfully");
 
         } catch (Exception e) {
             // Capture screenshot

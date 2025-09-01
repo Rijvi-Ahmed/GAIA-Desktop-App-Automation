@@ -221,70 +221,12 @@ public class SamplePage extends DataEntryBasePage {
     }
     
     // Table manipulation methods
-    public void fillColumnIfEmpty(String columnName, String prefix) {
-        List<WindowsElement> rows = cocDriver.findElementsByXPath(TABLE_BASE + "//ListItem");
-        int rowCount = rows.size();
-        int counter = 1;
-
-        for (int i = 1; i <= rowCount; i++) {
-            String cellXPath = TABLE_BASE + "//ListItem[@Name='Row " + i + "']//DataItem[@Name='"
-                    + columnName + " row " + i + "']";
-            WindowsElement cell = cocDriver.findElementByXPath(cellXPath);
-
-            // Try getting the value without edit mode
-            String currentValue = getElementValue(cell);
-            if (currentValue == null || currentValue.trim().isEmpty()) {
-                cell.click();
-                new Actions(cocDriver).sendKeys(prefix + counter++).perform();
-                pause(300);
-
-                // If last row, move focus out to commit value
-                if (i == rowCount) {
-                    // Press Tab to move to next cell or first cell
-                    new Actions(cocDriver).sendKeys(Keys.TAB).perform();
-                    pause(200);
-                }
-            }
-        }
+    public void fillColumnIfEmptyInSample(String columnName, String prefix) {
+        fillColumnIfEmptyFromBase(TABLE_BASE, columnName, prefix);
     }
     
     public void validateTableFilled(List<String> columnsToCheck, ExtentTest test) {
-        // Get all rows
-        List<WindowsElement> rows = cocDriver.findElementsByXPath(TABLE_BASE + "//ListItem");
-        int rowCount = rows.size();
-        boolean anyBlank = false;
-
-        for (int i = 1; i <= rowCount; i++) {
-            // Get Lab ID for this row
-            String labIdXPath = TABLE_BASE + "//ListItem[@Name='Row " + i + "']//DataItem[@Name='Lab ID row " + i + "']";
-            WindowsElement labIdCell = cocDriver.findElementByXPath(labIdXPath);
-            String labId = getElementValue(labIdCell);
-
-            // Loop through all columns to check
-            for (String columnName : columnsToCheck) {
-                String cellXPath = TABLE_BASE + "//ListItem[@Name='Row " + i + "']//DataItem[@Name='"
-                        + columnName + " row " + i + "']";
-                WindowsElement cell = cocDriver.findElementByXPath(cellXPath);
-                String value = getElementValue(cell);
-
-                if (value == null || value.trim().isEmpty()) {
-                    String msg = "Row " + i + " (Lab ID: " + labId + ") - Column '" + columnName + "' is blank!";
-                    System.out.println(msg);
-                    if (test != null) test.fail(msg);
-                    anyBlank = true;
-                }
-            }
-        }
-        
-        if (anyBlank) {
-            if (test != null) test.fail("Some columns are blank. See report for details.");
-        }
-
-        if (!anyBlank) {
-            String msg = "All fields in the table are successfully filled!";
-            System.out.println(msg);
-            if (test != null) test.pass(msg);
-        }
+        super.validateTableFilled(TABLE_BASE, columnsToCheck, test);
     }
     
     public void verifyCustomerIdMatchesAutoBaseForLastNSamples(String expectedAutoBase, int lastNSamples, ExtentTest test) {

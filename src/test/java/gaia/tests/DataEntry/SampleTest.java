@@ -43,9 +43,9 @@ public class SampleTest extends DataEntryBaseTest {
             samplePage.verifyLabIdsPresentForLastNSamples(createdSamples, test);
 
             // Fill missing values after creating samples
-            samplePage.fillColumnIfEmpty("Customer ID", SampleData.SampleTestData.CUSTOMER_ID_PREFIX_FILL);
-            samplePage.fillColumnIfEmpty("Description", SampleData.SampleTestData.DESCRIPTION_PREFIX_FILL);
-            samplePage.fillColumnIfEmpty("Lab Notes", SampleData.SampleTestData.LAB_NOTES_PREFIX_FILL);
+            samplePage.fillColumnIfEmptyInSample("Customer ID", SampleData.SampleTestData.CUSTOMER_ID_PREFIX_FILL);
+            samplePage.fillColumnIfEmptyInSample("Description", SampleData.SampleTestData.DESCRIPTION_PREFIX_FILL);
+            samplePage.fillColumnIfEmptyInSample("Lab Notes", SampleData.SampleTestData.LAB_NOTES_PREFIX_FILL);
 
             // Validate table after filling
             samplePage.validateTableFilled(SampleData.SampleTestData.COLUMNS_TO_CHECK, test);

@@ -42,6 +42,11 @@ public class BasePage {
         pause(1000);
     }
 
+    protected void clickElement(RemoteWebElement element) {
+        element.click();
+        pause(1000);
+    }
+
     protected void doubleClickElement(WindowsElement element) {
         Actions actions = new Actions(driver);
         actions.doubleClick(element).perform();

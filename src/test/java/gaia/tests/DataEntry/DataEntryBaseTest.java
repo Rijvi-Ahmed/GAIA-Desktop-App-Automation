@@ -37,10 +37,10 @@ public class DataEntryBaseTest extends BaseTest {
 			DriverManager.attachCocToMainWindow();
 		}
 		//when run individual test case, need to comment this line
-		// if (!sessionInitialized) {
-        //     dataEntryBasePage.setupDataEntrySession();
-        //     sessionInitialized = true;
-        // }
+		if (!sessionInitialized) {
+            dataEntryBasePage.setupDataEntrySession();
+            sessionInitialized = true;
+        }
 	}
 
 }
