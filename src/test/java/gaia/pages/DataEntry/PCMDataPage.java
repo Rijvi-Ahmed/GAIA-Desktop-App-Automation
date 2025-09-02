@@ -24,6 +24,14 @@ public class PCMDataPage extends DataEntryBasePage {
         fillColumnIfEmptyFromBase(PCM_TABLE_BASE, columnName, prefix);
     }
 
+    public void CustomerIdMatchingBetweenPcmAndSample(ExtentTest test){
+        CustomerIdMatchingFromDifferentTable(test);
+    }
+
+    public void clearPcmCustomerIdAndValidateCustomerIdBlankOnSample(ExtentTest test){
+        clearCustomerIdAndValidateCustomerIdBlankOnSample(test);
+    }
+
 
     public void selectRandomVolumeUnitForAllRows(ExtentTest test) {
         selectRandomFromDropdownColumnForAllRows(PCM_TABLE_BASE, "Volume Unit", test);
@@ -33,8 +41,8 @@ public class PCMDataPage extends DataEntryBasePage {
         selectRandomFromDropdownColumnForAllRows(PCM_TABLE_BASE, "Time Unit", test);
     }
 
-    public void validateTableFilled(List<String> columnsToCheck, ExtentTest test) {
-        super.validateTableFilled(PCM_TABLE_BASE, columnsToCheck, test);
+    public void validateTableFilledonPcm(List<String> columnsToCheck, ExtentTest test) {
+        validateTableFilled(PCM_TABLE_BASE, columnsToCheck, test);
     }
 
 }
