@@ -33,12 +33,12 @@ public class PCMDataPage extends DataEntryBasePage {
     }
 
 
-    public void selectRandomVolumeUnitForAllRows(ExtentTest test) {
-        selectRandomFromDropdownColumnForAllRows(PCM_TABLE_BASE, "Volume Unit", test);
+    public void selectVolumeUnitForAllRows(ExtentTest test) {
+        selectValueFromDropdownColumnForAllRows(PCM_TABLE_BASE, "Volume Unit", test);
     }
 
-    public void selectRandomTimeUnitForAllRows(ExtentTest test) {
-        selectRandomFromDropdownColumnForAllRows(PCM_TABLE_BASE, "Time Unit", test);
+    public void selectTimeUnitForAllRows(ExtentTest test) {
+        selectValueFromDropdownColumnForAllRows(PCM_TABLE_BASE, "Time Unit", test);
     }
 
     public void validateTableFilledonPcm(List<String> columnsToCheck, ExtentTest test) {

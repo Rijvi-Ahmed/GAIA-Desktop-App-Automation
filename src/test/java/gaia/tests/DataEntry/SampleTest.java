@@ -48,7 +48,7 @@ public class SampleTest extends DataEntryBaseTest {
             samplePage.fillColumnIfEmptyInSample("Lab Notes", SampleData.SampleTestData.LAB_NOTES_PREFIX_FILL);
 
             // Validate table after filling
-            samplePage.validateTableFilled(SampleData.SampleTestData.COLUMNS_TO_CHECK, test);
+            samplePage.validateTableFilledOnSample(SampleData.SampleTestData.COLUMNS_TO_CHECK, test);
 
             // Verify Customer ID sequence: prefix + autobase + suffix + '-' + autoNumber,
             // incrementing by 1

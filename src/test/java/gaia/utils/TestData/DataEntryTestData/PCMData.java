@@ -7,8 +7,8 @@ public class PCMData {
 
     // Pcm section test data
     public static class PCMTestData {
-        public static final String PCM_PUMP_RATE = "2";
-        public static final String PCM_PUMP_TIME = "1";
+        public static final String PCM_PUMP_RATE = "0";
+        public static final String PCM_PUMP_TIME = "0";
         public static final String CUSTOMER_ID_PREFIX_FILL = "C";
         public static final List<String> COLUMNS_TO_CHECK = Arrays.asList("Customer ID", "Pump Rate (LPM) / Volume (L)", "Pump Time (min.)", "Volume Unit", "Time Unit");
         //public static final String TEM_CUSTOMER_ID_SUFFIX = "Test";

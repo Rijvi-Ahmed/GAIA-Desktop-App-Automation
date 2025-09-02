@@ -17,7 +17,7 @@ public class SamplePage extends DataEntryBasePage {
     private static final String AUTO_NUMBER_INPUT = "//Window[@Name='GAIA - Data Entry']//Edit[@Name='Auto number for the Customer ID']";
     private static final String AUTO_BASE_NUMBER_INPUT = "//Window[@Name='GAIA - Data Entry']//Edit[starts-with(@Name,'Auto base for Customer ID with mmDDyyyy structure')]";
     private static final String NEW_SAMPLES_BUTTON = "//Button[@Name='New Sample(s)']";
-    private static final String TABLE_BASE = "//Table[@AutomationId='SamplesGridControl']";
+    private static final String SAMPLE_TABLE_BASE = "//Table[@AutomationId='SamplesGridControl']";
     private static final String AUTO_BASE_BUTTON = "//Pane[@AutomationId='SamplesXtraUserControl']//Button[@Name='Auto Base:']";
     private static final String BLANK_AUTO_BASE_WINDOW = "//Window[contains(@Name, 'Blank Auto Base')]";
     private static final String BLANK_AUTO_BASE_OK_BUTTON = "//Window[contains(@Name, 'Blank Auto Base')]//Button[@Name='OK']";
@@ -134,7 +134,7 @@ public class SamplePage extends DataEntryBasePage {
             ExtentTest test
     ) {
         pause(300);
-        List<WindowsElement> rows = cocDriver.findElementsByXPath(TABLE_BASE + "//ListItem");
+        List<WindowsElement> rows = cocDriver.findElementsByXPath(SAMPLE_TABLE_BASE + "//ListItem");
         int rowCount = rows.size();
         if (rowCount == 0) {
             if (test != null) test.fail("No rows found in the samples table");
@@ -148,7 +148,7 @@ public class SamplePage extends DataEntryBasePage {
         int expectedNumber = startingAutoNumber;
 
         for (int i = startIndex; i <= rowCount; i++) {
-            String customerIdXPath = TABLE_BASE + "//ListItem[@Name='Row " + i + "']//DataItem[@Name='Customer ID row " + i + "']";
+            String customerIdXPath = SAMPLE_TABLE_BASE + "//ListItem[@Name='Row " + i + "']//DataItem[@Name='Customer ID row " + i + "']";
             WindowsElement customerIdCell = cocDriver.findElementByXPath(customerIdXPath);
             String actualCustomerId = getElementValue(customerIdCell);
             if (actualCustomerId == null) actualCustomerId = "";
@@ -176,7 +176,7 @@ public class SamplePage extends DataEntryBasePage {
 
     public void verifyLabIdsPresentForLastNSamples(int lastNSamples, ExtentTest test) {
         pause(300);
-        List<WindowsElement> rows = cocDriver.findElementsByXPath(TABLE_BASE + "//ListItem");
+        List<WindowsElement> rows = cocDriver.findElementsByXPath(SAMPLE_TABLE_BASE + "//ListItem");
         int rowCount = rows.size();
         if (rowCount == 0) {
             if (test != null) test.fail("No rows found in the samples table");
@@ -189,7 +189,7 @@ public class SamplePage extends DataEntryBasePage {
         boolean anyMissing = false;
 
         for (int i = startIndex; i <= rowCount; i++) {
-            String labIdXPath = TABLE_BASE + "//ListItem[@Name='Row " + i + "']//DataItem[@Name='Lab ID row " + i + "']";
+            String labIdXPath = SAMPLE_TABLE_BASE + "//ListItem[@Name='Row " + i + "']//DataItem[@Name='Lab ID row " + i + "']";
             WindowsElement labIdCell = cocDriver.findElementByXPath(labIdXPath);
             String labIdValue = getElementValue(labIdCell);
 
@@ -222,18 +222,18 @@ public class SamplePage extends DataEntryBasePage {
     
     // Table manipulation methods
     public void fillColumnIfEmptyInSample(String columnName, String prefix) {
-        fillColumnIfEmptyFromBase(TABLE_BASE, columnName, prefix);
+        fillColumnIfEmptyFromBase(SAMPLE_TABLE_BASE, columnName, prefix);
     }
     
-    public void validateTableFilled(List<String> columnsToCheck, ExtentTest test) {
-        super.validateTableFilled(TABLE_BASE, columnsToCheck, test);
+    public void validateTableFilledOnSample(List<String> columnsToCheck, ExtentTest test) {
+        validateTableFilled(SAMPLE_TABLE_BASE, columnsToCheck, test);
     }
     
     public void verifyCustomerIdMatchesAutoBaseForLastNSamples(String expectedAutoBase, int lastNSamples, ExtentTest test) {
         // Allow UI to update after applying Auto Base
         pause(500);
 
-        List<WindowsElement> rows = cocDriver.findElementsByXPath(TABLE_BASE + "//ListItem");
+        List<WindowsElement> rows = cocDriver.findElementsByXPath(SAMPLE_TABLE_BASE + "//ListItem");
         int rowCount = rows.size();
         if (rowCount == 0) {
             if (test != null) test.fail("No rows found in the samples table");
@@ -246,7 +246,7 @@ public class SamplePage extends DataEntryBasePage {
         boolean anyMismatch = false;
 
         for (int i = startIndex; i <= rowCount; i++) {
-            String customerIdXPath = TABLE_BASE + "//ListItem[@Name='Row " + i + "']//DataItem[@Name='Customer ID row " + i + "']";
+            String customerIdXPath = SAMPLE_TABLE_BASE + "//ListItem[@Name='Row " + i + "']//DataItem[@Name='Customer ID row " + i + "']";
             WindowsElement customerIdCell = cocDriver.findElementByXPath(customerIdXPath);
             String customerIdValue = getElementValue(customerIdCell);
 
@@ -273,7 +273,7 @@ public class SamplePage extends DataEntryBasePage {
 
     // Utility: get samples row count
     public int getSamplesRowCount() {
-        List<WindowsElement> rows = cocDriver.findElementsByXPath(TABLE_BASE + "//ListItem");
+        List<WindowsElement> rows = cocDriver.findElementsByXPath(SAMPLE_TABLE_BASE + "//ListItem");
         return rows == null ? 0 : rows.size();
     }
 
@@ -293,7 +293,7 @@ public class SamplePage extends DataEntryBasePage {
         int startIndex = Math.max(1, rowCount - n + 1);
 
         // Click first target row without CTRL
-        String firstRowXPath = TABLE_BASE + "//ListItem[@Name='Row " + startIndex + "']";
+        String firstRowXPath = SAMPLE_TABLE_BASE + "//ListItem[@Name='Row " + startIndex + "']";
         WindowsElement firstRow = cocDriver.findElementByXPath(firstRowXPath);
         clickElement(firstRow);
         pause(100);
@@ -303,7 +303,7 @@ public class SamplePage extends DataEntryBasePage {
             Actions actions = new Actions(cocDriver);
             actions.keyDown(Keys.CONTROL).perform();
             for (int i = startIndex + 1; i <= rowCount; i++) {
-                String rowXPath = TABLE_BASE + "//ListItem[@Name='Row " + i + "']";
+                String rowXPath = SAMPLE_TABLE_BASE + "//ListItem[@Name='Row " + i + "']";
                 WindowsElement row = cocDriver.findElementByXPath(rowXPath);
                 row.click();
                 pause(100);
@@ -382,8 +382,8 @@ public class SamplePage extends DataEntryBasePage {
         pause(1000); // Allow time for UI to update after layer creation
         
         // Get the 2nd row (original sample) details
-        String secondRowLabIdXPath = TABLE_BASE + "//ListItem[@Name='Row 2']//DataItem[@Name='Lab ID row 2']";
-        String secondRowCustomerIdXPath = TABLE_BASE + "//ListItem[@Name='Row 2']//DataItem[@Name='Customer ID row 2']";
+        String secondRowLabIdXPath = SAMPLE_TABLE_BASE + "//ListItem[@Name='Row 2']//DataItem[@Name='Lab ID row 2']";
+        String secondRowCustomerIdXPath = SAMPLE_TABLE_BASE + "//ListItem[@Name='Row 2']//DataItem[@Name='Customer ID row 2']";
         
         WindowsElement secondRowLabId = cocDriver.findElementByXPath(secondRowLabIdXPath);
         WindowsElement secondRowCustomerId = cocDriver.findElementByXPath(secondRowCustomerIdXPath);
@@ -392,10 +392,10 @@ public class SamplePage extends DataEntryBasePage {
         String secondRowCustomerIdValue = getElementValue(secondRowCustomerId);
         
         // Get the new layer rows (should be rows 3 and 4)
-        String thirdRowLabIdXPath = TABLE_BASE + "//ListItem[@Name='Row 3']//DataItem[@Name='Lab ID row 3']";
-        String thirdRowCustomerIdXPath = TABLE_BASE + "//ListItem[@Name='Row 3']//DataItem[@Name='Customer ID row 3']";
-        String fourthRowLabIdXPath = TABLE_BASE + "//ListItem[@Name='Row 4']//DataItem[@Name='Lab ID row 4']";
-        String fourthRowCustomerIdXPath = TABLE_BASE + "//ListItem[@Name='Row 4']//DataItem[@Name='Customer ID row 4']";
+        String thirdRowLabIdXPath = SAMPLE_TABLE_BASE + "//ListItem[@Name='Row 3']//DataItem[@Name='Lab ID row 3']";
+        String thirdRowCustomerIdXPath = SAMPLE_TABLE_BASE + "//ListItem[@Name='Row 3']//DataItem[@Name='Customer ID row 3']";
+        String fourthRowLabIdXPath = SAMPLE_TABLE_BASE + "//ListItem[@Name='Row 4']//DataItem[@Name='Lab ID row 4']";
+        String fourthRowCustomerIdXPath = SAMPLE_TABLE_BASE + "//ListItem[@Name='Row 4']//DataItem[@Name='Customer ID row 4']";
         
         WindowsElement thirdRowLabId = cocDriver.findElementByXPath(thirdRowLabIdXPath);
         WindowsElement thirdRowCustomerId = cocDriver.findElementByXPath(thirdRowCustomerIdXPath);
@@ -475,7 +475,7 @@ public class SamplePage extends DataEntryBasePage {
     public void selectFirstOfLastCreatedSamples(int lastNSamples, ExtentTest test) {
         // Allow table to update after creation
         pause(500);
-        List<WindowsElement> rows = cocDriver.findElementsByXPath(TABLE_BASE + "//ListItem");
+        List<WindowsElement> rows = cocDriver.findElementsByXPath(SAMPLE_TABLE_BASE + "//ListItem");
         int rowCount = rows.size();
         if (rowCount == 0) {
             if (test != null) test.fail("No rows found in the samples table");
@@ -484,14 +484,14 @@ public class SamplePage extends DataEntryBasePage {
         int targetIndex = Math.max(1, rowCount - lastNSamples + 1);
 
         // Click the target row
-        String targetRowXPath = TABLE_BASE + "//ListItem[@Name='Row " + targetIndex + "']";
+        String targetRowXPath = SAMPLE_TABLE_BASE + "//ListItem[@Name='Row " + targetIndex + "']";
         WindowsElement targetRow = cocDriver.findElementByXPath(targetRowXPath);
         clickElement(targetRow);
         pause(200);
 
         // Log Lab ID and Customer ID of selected row
-        String labIdXPath = TABLE_BASE + "//ListItem[@Name='Row " + targetIndex + "']//DataItem[@Name='Lab ID row " + targetIndex + "']";
-        String customerIdXPath = TABLE_BASE + "//ListItem[@Name='Row " + targetIndex + "']//DataItem[@Name='Customer ID row " + targetIndex + "']";
+        String labIdXPath = SAMPLE_TABLE_BASE + "//ListItem[@Name='Row " + targetIndex + "']//DataItem[@Name='Lab ID row " + targetIndex + "']";
+        String customerIdXPath = SAMPLE_TABLE_BASE + "//ListItem[@Name='Row " + targetIndex + "']//DataItem[@Name='Customer ID row " + targetIndex + "']";
         WindowsElement labIdCell = cocDriver.findElementByXPath(labIdXPath);
         WindowsElement customerIdCell = cocDriver.findElementByXPath(customerIdXPath);
         String labIdValue = getElementValue(labIdCell);

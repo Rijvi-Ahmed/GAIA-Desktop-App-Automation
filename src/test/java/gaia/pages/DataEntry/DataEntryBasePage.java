@@ -34,48 +34,27 @@ public class DataEntryBasePage extends BasePage {
      * @param columnName The name of the column to fill
      * @param test       ExtentTest for reporting
      */
-    public void selectRandomFromDropdownColumnForAllRows(String tableBase, String columnName, ExtentTest test) {
+    public void selectValueFromDropdownColumnForAllRows(String tableBase, String columnName, ExtentTest test) {
         List<WindowsElement> rows = cocDriver.findElementsByXPath(tableBase + "//ListItem");
         int rowCount = rows.size();
         if (rowCount == 0)
             return;
-
+    
         for (int i = 1; i <= rowCount; i++) {
             try {
-                // Click the specific cell in this column for the current row to focus the
-                // editor
-                String cellXPath = tableBase + "//ListItem[@Name='Row " + i + "']//DataItem[@Name='" + columnName
-                        + " row " + i + "']";
+                // Focus the cell for this row and column
+                String cellXPath = tableBase + "//ListItem[@Name='Row " + i + "']//DataItem[@Name='" + columnName + " row " + i + "']";
                 WindowsElement cell = (WindowsElement) cocWait.until(
                         ExpectedConditions.elementToBeClickable(cocDriver.findElementByXPath(cellXPath)));
                 clickElement(cell);
                 pause(120);
-                // If dropdown didn't appear yet, try clicking cell again
-                try {
-                    cell.click();
-                } catch (Exception ignored) {
-                }
-                pause(120);
-
-                // Select the second value using the provided options locator pattern
+    
+                // Dropdown should open automatically, so just select the second value
                 List<WindowsElement> options = cocDriver.findElementsByXPath(
                         "//Table[@Name='MainView']//ListItem[contains(@Name,'Row ')]//DataItem[starts-with(@Name,'Name row')]");
-                if (options == null || options.size() < 2) {
-                    // Try using the Open button if options are not yet visible
-                    String openBtnXPath = tableBase + "//Edit[@Name='Editing control']//Button[@Name='Open']";
-                    try {
-                        WindowsElement openBtn = (WindowsElement) cocWait.until(
-                                ExpectedConditions.elementToBeClickable(cocDriver.findElementByXPath(openBtnXPath)));
-                        clickElement(openBtn);
-                        pause(150);
-                        options = cocDriver.findElementsByXPath(
-                                "//Table[@Name='MainView']//ListItem[contains(@Name,'Row ')]//DataItem[starts-with(@Name,'Name row')]");
-                    } catch (Exception ignored) {
-                    }
-                }
                 if (options == null || options.size() < 2)
                     continue;
-
+    
                 WindowsElement second = options.get(1); // zero-based index -> second item
                 try {
                     org.openqa.selenium.remote.RemoteWebElement parentListItem = second
@@ -88,22 +67,28 @@ public class DataEntryBasePage extends BasePage {
                 } catch (Exception e) {
                     clickElement(second);
                 }
-                pause(150);
+                pause(500);
+    
+                // Press TAB then LEFT ARROW to move focus out and commit the value
+                new org.openqa.selenium.interactions.Actions(cocDriver).sendKeys(org.openqa.selenium.Keys.TAB).perform();
+                pause(100);
+                new org.openqa.selenium.interactions.Actions(cocDriver).sendKeys(org.openqa.selenium.Keys.ARROW_LEFT).perform();
+                pause(500); // Slightly longer pause to ensure value is committed
 
-                // Read back the selected value and log
+                // Re-fetch the cell and log the saved value
+                cell = (WindowsElement) cocWait.until(
+                        ExpectedConditions.elementToBeClickable(cocDriver.findElementByXPath(cellXPath)));
                 String afterValue = null;
                 try {
                     afterValue = getElementValue(cell);
-                } catch (Exception ignored) {
-                }
+                } catch (Exception ignored) {}
                 String logMsg = "Row " + i + " - " + columnName + " selected: "
                         + (afterValue == null ? "" : afterValue);
                 System.out.println(logMsg);
                 if (test != null) {
                     test.info(logMsg);
                 }
-            } catch (Exception ignored) {
-            }
+            } catch (Exception ignored) {}
         }
     }
 

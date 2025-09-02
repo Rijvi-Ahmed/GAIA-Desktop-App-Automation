@@ -8,7 +8,7 @@ public class TEMDataPage extends DataEntryBasePage {
 
 
     private static final String TEMDATA_TAB = "//TabItem[@Name='TEM Data']";
-    //private static final String TEM_TABLE_BASE = "//Table[@AutomationId='TEMDataGridControl']";
+    //private static final String TEM_SAMPLE_TABLE_BASE = "//Table[@AutomationId='TEMDataGridControl']";
 
     // Navigate the TEM section
     public void navigateToTEMDataTab() {
