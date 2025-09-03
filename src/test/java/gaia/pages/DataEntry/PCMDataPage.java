@@ -25,11 +25,11 @@ public class PCMDataPage extends DataEntryBasePage {
     }
 
     public void CustomerIdMatchingBetweenPcmAndSample(ExtentTest test){
-        CustomerIdMatchingFromDifferentTable(test);
+        CustomerIdMatchingFromDifferentTable(test, "PCM");
     }
 
     public void clearPcmCustomerIdAndValidateCustomerIdBlankOnSample(ExtentTest test){
-        clearCustomerIdAndValidateCustomerIdBlankOnSample(test);
+        clearCustomerIdAndValidateCustomerIdBlankOnSample(test, "PCM");
     }
 
 

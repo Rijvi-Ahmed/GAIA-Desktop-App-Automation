@@ -253,28 +253,31 @@ public class DataEntryBasePage extends BasePage {
      * if Customer IDs are equal, log the pair in the test info.
      * Does not fail on mismatches; only logs matches.
      */
-    public void CustomerIdMatchingFromDifferentTable(ExtentTest test) {
-        // Navigate to PCM Data and collect LabID -> CustomerID
+    public void CustomerIdMatchingFromDifferentTable(ExtentTest test, String tableName) {
+        // Navigate to PCM/TEM Data and collect LabID -> CustomerID
         try {
-            WindowsElement pcmTab = (WindowsElement) cocWait.until(
-                    ExpectedConditions.elementToBeClickable(cocDriver.findElementByXPath(TAB_PCM_DATA)));
-            clickElement(pcmTab);
+            WindowsElement dataTab = (WindowsElement) cocWait.until(
+                    ExpectedConditions.elementToBeClickable(cocDriver.findElementByXPath(
+                        tableName.equals("PCM") ? TAB_PCM_DATA : "//TabItem[@Name='" + tableName + " Data']"
+                    )));
+            clickElement(dataTab);
             pause(300);
         } catch (Exception ignored) {
         }
 
-        java.util.List<WindowsElement> pcmRows = cocDriver.findElementsByXPath(TABLE_PCM_BASE + "//ListItem");
-        java.util.Map<String, String> labIdToPcmCustomer = new java.util.HashMap<>();
-        for (int i = 1; i <= (pcmRows == null ? 0 : pcmRows.size()); i++) {
-            String labXPath = TABLE_PCM_BASE + "//ListItem[@Name='Row " + i + "]//DataItem[@Name='Lab ID row " + i + "]";
-            String custXPath = TABLE_PCM_BASE + "//ListItem[@Name='Row " + i + "]//DataItem[@Name='Customer ID row " + i + "]";
+        String tableBase = tableName.equals("PCM") ? TABLE_PCM_BASE : "//Table[@AutomationId='" + tableName + "DataGridControl']";
+        java.util.List<WindowsElement> dataRows = cocDriver.findElementsByXPath(tableBase + "//ListItem");
+        java.util.Map<String, String> labIdToCustomer = new java.util.HashMap<>();
+        for (int i = 1; i <= (dataRows == null ? 0 : dataRows.size()); i++) {
+            String labXPath = tableBase + "//ListItem[@Name='Row " + i + "]//DataItem[@Name='Lab ID row " + i + "]";
+            String custXPath = tableBase + "//ListItem[@Name='Row " + i + "]//DataItem[@Name='Customer ID row " + i + "]";
             try {
                 WindowsElement labCell = cocDriver.findElementByXPath(labXPath);
                 WindowsElement custCell = cocDriver.findElementByXPath(custXPath);
                 String labId = getElementValue(labCell);
                 String custId = getElementValue(custCell);
                 if (labId != null && !labId.trim().isEmpty()) {
-                    labIdToPcmCustomer.put(labId, custId == null ? "" : custId);
+                    labIdToCustomer.put(labId, custId == null ? "" : custId);
                 }
             } catch (Exception ignored) {
             }
@@ -301,22 +304,22 @@ public class DataEntryBasePage extends BasePage {
                 String sampleCust = getElementValue(custCell);
                 if (labId == null || labId.trim().isEmpty())
                     continue;
-                String pcmCust = labIdToPcmCustomer.get(labId);
-                if (pcmCust != null) {
-                    if (pcmCust.equals(sampleCust)) {
+                String dataCust = labIdToCustomer.get(labId);
+                if (dataCust != null) {
+                    if (dataCust.equals(sampleCust)) {
                         String msg = "Customer ID match for Lab ID '" + labId + "': " + sampleCust;
                         if (test != null)
                             test.info(msg);
                         System.out.println(msg);
                     } else {
-                        mismatchedLabIds.add(labId + " (PCM='" + pcmCust + "', Sample='" + sampleCust + "')");
+                        mismatchedLabIds.add(labId + " (" + tableName + "='" + dataCust + "', Sample='" + sampleCust + "')");
                     }
                 }
             } catch (Exception ignored) {
             }
         }
         if (mismatchedLabIds.isEmpty()) {
-            if (test != null) test.pass("All Customer IDs match for each Lab ID present in both PCM and Sample tables.");
+            if (test != null) test.pass("All Customer IDs match for each Lab ID present in both " + tableName + " and Sample tables.");
         } else {
             String msg = "Customer ID mismatches found for Lab IDs: " + String.join(", ", mismatchedLabIds);
             if (test != null) test.fail(msg);
@@ -329,26 +332,29 @@ public class DataEntryBasePage extends BasePage {
      * navigate to the Samples table and validate that the Customer ID is
      * blank for the same Lab ID. Logs pass/fail accordingly.
      */
-    public void clearCustomerIdAndValidateCustomerIdBlankOnSample(ExtentTest test) {
-        // Navigate to PCM tab and get the Lab ID from the first row
+    public void clearCustomerIdAndValidateCustomerIdBlankOnSample(ExtentTest test, String tableName) {
+        // Navigate to PCM/TEM tab and get the Lab ID from the first row
         String targetLabId = null;
         try {
-            WindowsElement pcmTab = (WindowsElement) cocWait.until(
-                    ExpectedConditions.elementToBeClickable(cocDriver.findElementByXPath(TAB_PCM_DATA)));
-            clickElement(pcmTab);
+            WindowsElement dataTab = (WindowsElement) cocWait.until(
+                    ExpectedConditions.elementToBeClickable(cocDriver.findElementByXPath(
+                        tableName.equals("PCM") ? TAB_PCM_DATA : "//TabItem[@Name='" + tableName + " Data']"
+                    )));
+            clickElement(dataTab);
             pause(300);
         } catch (Exception ignored) {
         }
 
-        java.util.List<WindowsElement> pcmRows = cocDriver.findElementsByXPath(TABLE_PCM_BASE + "//ListItem");
-        if (pcmRows == null || pcmRows.size() == 0) {
+        String tableBase = tableName.equals("PCM") ? TABLE_PCM_BASE : "//Table[@AutomationId='" + tableName + "DataGridControl']";
+        java.util.List<WindowsElement> dataRows = cocDriver.findElementsByXPath(tableBase + "//ListItem");
+        if (dataRows == null || dataRows.size() == 0) {
             if (test != null)
-                test.fail("No rows found in PCM table");
+                test.fail("No rows found in " + tableName + " table");
             return;
         }
         // Get Lab ID from the first row
         try {
-            String labXPath = TABLE_PCM_BASE + "//ListItem[@Name='Row 1']//DataItem[@Name='Lab ID row 1']";
+            String labXPath = tableBase + "//ListItem[@Name='Row 1']//DataItem[@Name='Lab ID row 1']";
             WindowsElement labCell = cocDriver.findElementByXPath(labXPath);
             targetLabId = getElementValue(labCell);
         } catch (Exception ignored) {
@@ -356,18 +362,16 @@ public class DataEntryBasePage extends BasePage {
 
         if (targetLabId == null || targetLabId.trim().isEmpty()) {
             if (test != null)
-                test.fail("Lab ID in first row of PCM table is empty");
+                test.fail("Lab ID in first row of " + tableName + " table is empty");
             return;
         }
 
         // Clear the Customer ID for the target Lab ID
         boolean cleared = false;
-        int pcmCount = pcmRows.size();
-        for (int i = 1; i <= pcmCount; i++) {
-            String labXPath = TABLE_PCM_BASE + "//ListItem[@Name='Row " + i + "']//DataItem[@Name='Lab ID row " + i
-                    + "']";
-            String custXPath = TABLE_PCM_BASE + "//ListItem[@Name='Row " + i + "']//DataItem[@Name='Customer ID row "
-                    + i + "']";
+        int dataCount = dataRows.size();
+        for (int i = 1; i <= dataCount; i++) {
+            String labXPath = tableBase + "//ListItem[@Name='Row " + i + "']//DataItem[@Name='Lab ID row " + i + "']";
+            String custXPath = tableBase + "//ListItem[@Name='Row " + i + "']//DataItem[@Name='Customer ID row " + i + "']";
             try {
                 WindowsElement labCell = cocDriver.findElementByXPath(labXPath);
                 String labId = getElementValue(labCell);
@@ -390,7 +394,7 @@ public class DataEntryBasePage extends BasePage {
 
         if (!cleared) {
             if (test != null)
-                test.fail("Could not find Lab ID '" + targetLabId + "' in PCM table");
+                test.fail("Could not find Lab ID '" + targetLabId + "' in " + tableName + " table");
             return;
         }
 
@@ -416,10 +420,8 @@ public class DataEntryBasePage extends BasePage {
         java.util.List<WindowsElement> sampleRows = cocDriver.findElementsByXPath(TABLE_SAMPLES_BASE + "//ListItem");
         int sampleCount = sampleRows == null ? 0 : sampleRows.size();
         for (int i = 1; i <= sampleCount; i++) {
-            String labXPath = TABLE_SAMPLES_BASE + "//ListItem[@Name='Row " + i + "']//DataItem[@Name='Lab ID row " + i
-                    + "']";
-            String custXPath = TABLE_SAMPLES_BASE + "//ListItem[@Name='Row " + i
-                    + "']//DataItem[@Name='Customer ID row " + i + "']";
+            String labXPath = TABLE_SAMPLES_BASE + "//ListItem[@Name='Row " + i + "']//DataItem[@Name='Lab ID row " + i + "']";
+            String custXPath = TABLE_SAMPLES_BASE + "//ListItem[@Name='Row " + i + "']//DataItem[@Name='Customer ID row " + i + "']";
             try {
                 WindowsElement labCell = cocDriver.findElementByXPath(labXPath);
                 String labId = getElementValue(labCell);
@@ -442,10 +444,10 @@ public class DataEntryBasePage extends BasePage {
 
         if (isBlank) {
             if (test != null)
-                test.pass("Customer ID is blank in Samples table for Lab ID '" + targetLabId + "' after clearing from PCM table");
+                test.pass("Customer ID is blank in Samples table for Lab ID '" + targetLabId + "' after clearing from " + tableName + " table");
         } else {
             if (test != null)
-                test.fail("Customer ID is not blank in Samples for Lab ID '" + targetLabId + "' after clearing in PCM");
+                test.fail("Customer ID is not blank in Samples for Lab ID '" + targetLabId + "' after clearing in " + tableName);
         }
     }
 }

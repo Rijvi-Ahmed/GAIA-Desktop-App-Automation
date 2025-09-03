@@ -21,5 +21,6 @@ public class PCMData {
     public static class PCMTestScenarios {
         public static final String TEST1_NAME = "GAIA - Validate all fields are properly filled of PCM Data section";
         public static final String TEST2_NAME = "GAIA - Validate customer ID of PCM Data is equal to customer ID of Sample and if customer ID is removed from PCM Data, then it also removes from Sample";
+        public static final String TEST3_NAME = "GAIA - Vaildate if customer ID is removed from PCM Data, then it also removes from Sample table";
     }
 }
