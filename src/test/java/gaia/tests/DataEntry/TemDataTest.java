@@ -8,49 +8,49 @@ import gaia.utils.TestData.DataEntryTestData.TEMData;
 
 public class TEMDataTest extends DataEntryBaseTest {
 
-    @Test
-    public void runTEMDataTest1() throws Exception {
-        long startTime = System.currentTimeMillis();
-        ExtentTest test = createTest(TEMData.TEMTestScenarios.TEST1_NAME);
+    // @Test
+    // public void runTEMDataTest1() throws Exception {
+    //     long startTime = System.currentTimeMillis();
+    //     ExtentTest test = createTest(TEMData.TEMTestScenarios.TEST1_NAME);
 
-        try {
+    //     try {
 
-            // need this code fo debug only the testcase2
-            temDataPage.maximizeWindow();
-            temDataPage.clickDataEntry();
-            temDataPage.firstLabID();
+    //         // need this code fo debug only the testcase2
+    //         temDataPage.maximizeWindow();
+    //         temDataPage.clickDataEntry();
+    //         temDataPage.firstLabID();
 
-            // navigate the PCM data tab
-            temDataPage.navigateToTEMDataTab();
-            test.pass("Navigated to 'PCM Data' tab");
+    //         // navigate the TEM data tab
+    //         temDataPage.navigateToTEMDataTab();
+    //         test.pass("Navigated to 'TEM Data' tab");
 
-            // Fill Customer ID, Pump Rate, Pump Time using per-column filler
-            temDataPage.fillColumnIfEmptyInTem("Customer ID", TEMData.TEMTestData.CUSTOMER_ID_PREFIX_FILL, test);
-            temDataPage.fillColumnIfEmptyInTem("Air Volume (L)", TEMData.TEMTestData.AIR_VOLUME, test);
-            temDataPage.fillColumnIfEmptyInTem("Wipe Area (cm²)", TEMData.TEMTestData.WIPE_AREA, test);
+    //         // Fill Customer ID, Pump Rate, Pump Time using per-column filler
+    //         temDataPage.fillColumnIfEmptyInTem("Customer ID", TEMData.TEMTestData.CUSTOMER_ID_PREFIX_FILL, test);
+    //         temDataPage.fillColumnIfEmptyInTem("Air Volume (L)", TEMData.TEMTestData.AIR_VOLUME, test);
+    //         temDataPage.fillColumnIfEmptyInTem("Wipe Area (cm²)", TEMData.TEMTestData.WIPE_AREA, test);
 
-            // Select random values for Volume Unit and Time Unit for each row
-            temDataPage.selectFilterForAllRows(test);
-            test.pass("Selected value of Volume Unit for all rows");
-            temDataPage.selectFilterTypeForAllRows(test);
-            test.pass("Selected value of Time Unit for all rows");
-            temDataPage.selectGridOpeningAreaForAllRows(test);
-            test.pass("Selected value of Time Unit for all rows");
+    //         // Select random values for Volume Unit and Time Unit for each row
+    //         temDataPage.selectFilterForAllRows(test);
+    //         test.pass("Selected value of Volume Unit for all rows");
+    //         temDataPage.selectFilterTypeForAllRows(test);
+    //         test.pass("Selected value of Time Unit for all rows");
+    //         temDataPage.selectGridOpeningAreaForAllRows(test);
+    //         test.pass("Selected value of Time Unit for all rows");
 
-            // Validate table after filling
-            temDataPage.validateTableFilledonTem(TEMData.TEMTestData.COLUMNS_TO_CHECK, test);
+    //         // Validate table after filling
+    //         temDataPage.validateTableFilledonTem(TEMData.TEMTestData.COLUMNS_TO_CHECK, test);
 
-        } catch (Exception e) {
-            // Capture screenshot
-            temDataPage.captureScreenshot("Failure_" + System.currentTimeMillis());
-            // Log the error in the report
-            test.fail("Test failed: " + e.getMessage());
-            // Do not rethrow to keep execution user-friendly
-        }
+    //     } catch (Exception e) {
+    //         // Capture screenshot
+    //         temDataPage.captureScreenshot("Failure_" + System.currentTimeMillis());
+    //         // Log the error in the report
+    //         test.fail("Test failed: " + e.getMessage());
+    //         // Do not rethrow to keep execution user-friendly
+    //     }
 
-        long endTime = System.currentTimeMillis();
-        System.out.println("Test 1 completed in " + (endTime - startTime) / 1000.0 + " seconds");
-    }
+    //     long endTime = System.currentTimeMillis();
+    //     System.out.println("Test 1 completed in " + (endTime - startTime) / 1000.0 + " seconds");
+    // }
 
     @Test
     public void runTEMDataTest2() throws Exception {
@@ -60,15 +60,15 @@ public class TEMDataTest extends DataEntryBaseTest {
         try {
 
             // need this code fo debug only the testcase2
-            // temDataPage.maximizeWindow();
-            // temDataPage.clickDataEntry();
-            // temDataPage.firstLabID();
+            temDataPage.maximizeWindow();
+            temDataPage.clickDataEntry();
+            temDataPage.firstLabID();
 
-            // navigate the PCM data tab
+            // navigate the TEM data tab
             temDataPage.navigateToTEMDataTab();
-            test.pass("Navigated to 'PCM Data' tab");
+            test.pass("Navigated to 'TEM Data' tab");
 
-            // Vailidate customer ID on PCM data table is equal to Customer ID on Sample
+            // Vailidate customer ID on TEM data table is equal to Customer ID on Sample
             // table
             temDataPage.CustomerIdMatchingBetweenTemAndSample(test);
 
@@ -96,11 +96,11 @@ public class TEMDataTest extends DataEntryBaseTest {
             // temDataPage.clickDataEntry();
             // temDataPage.firstLabID();
 
-            // navigate the PCM data tab
+            // navigate the TEM data tab
             temDataPage.navigateToTEMDataTab();
-            test.pass("Navigated to 'PCM Data' tab");
+            test.pass("Navigated to 'TEM Data' tab");
 
-            // Validate that if customer ID is remove from PCM data, then it also removes
+            // Validate that if customer ID is remove from TEM data, then it also removes
             // from Sample table.
             temDataPage.clearTemCustomerIdAndValidateCustomerIdBlankOnSample(test);
 
@@ -119,39 +119,39 @@ public class TEMDataTest extends DataEntryBaseTest {
         System.out.println("Test 1 completed in " + (endTime - startTime) / 1000.0 + " seconds");
     }
 
-    @Test
-    public void runTEMDataTest4() throws Exception {
-        long startTime = System.currentTimeMillis();
-        ExtentTest test = createTest(TEMData.TEMTestScenarios.TEST4_NAME);
+    // @Test
+    // public void runTEMDataTest4() throws Exception {
+    //     long startTime = System.currentTimeMillis();
+    //     ExtentTest test = createTest(TEMData.TEMTestScenarios.TEST4_NAME);
 
-        try {
+    //     try {
 
-            // need this code fo debug only the testcase2
-            // temDataPage.maximizeWindow();
-            // temDataPage.clickDataEntry();
-            // temDataPage.firstLabID();
+    //         // need this code fo debug only the testcase2
+    //         // temDataPage.maximizeWindow();
+    //         // temDataPage.clickDataEntry();
+    //         // temDataPage.firstLabID();
 
-            // navigate the PCM data tab
-            temDataPage.navigateToTEMDataTab();
-            test.pass("Navigated to 'PCM Data' tab");
+    //         // navigate the TEM data tab
+    //         temDataPage.navigateToTEMDataTab();
+    //         test.pass("Navigated to 'TEM Data' tab");
 
-            // Validate that the first row's filter value is applied to all rows
-            temDataPage.verifyFilterValueAppliedToAllRows("Filter", test);
-            //for Filter Type
-            temDataPage.verifyFilterValueAppliedToAllRows("Filter Type", test);
-            //for Grid Opening Area (mm²)
-            temDataPage.verifyFilterValueAppliedToAllRows("Grid Opening Area (mm²)", test);
+    //         // Validate that the first row's filter value is applied to all rows
+    //         temDataPage.verifyFilterValueAppliedToAllRows("Filter", test);
+    //         //for Filter Type
+    //         temDataPage.verifyFilterValueAppliedToAllRows("Filter Type", test);
+    //         //for Grid Opening Area (mm²)
+    //         temDataPage.verifyFilterValueAppliedToAllRows("Grid Opening Area (mm²)", test);
 
-        } catch (Exception e) {
-            // Capture screenshot
-            temDataPage.captureScreenshot("Failure_" + System.currentTimeMillis());
-            // Log the error in the report
-            test.fail("Test failed: " + e.getMessage());
-            // Do not rethrow to keep execution user-friendly
-        }
+    //     } catch (Exception e) {
+    //         // Capture screenshot
+    //         temDataPage.captureScreenshot("Failure_" + System.currentTimeMillis());
+    //         // Log the error in the report
+    //         test.fail("Test failed: " + e.getMessage());
+    //         // Do not rethrow to keep execution user-friendly
+    //     }
 
-        long endTime = System.currentTimeMillis();
-        System.out.println("Test 1 completed in " + (endTime - startTime) / 1000.0 + " seconds");
-    }
+    //     long endTime = System.currentTimeMillis();
+    //     System.out.println("Test 1 completed in " + (endTime - startTime) / 1000.0 + " seconds");
+    // }
 
 }

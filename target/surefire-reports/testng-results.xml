@@ -1,37 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results ignored="0" total="4" passed="4" failed="0" skipped="0">
+<testng-results ignored="0" total="2" passed="2" failed="0" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2025-09-03T17:40:38 BDT" name="Surefire suite" finished-at="2025-09-03T17:49:41 BDT" duration-ms="542910">
+  <suite started-at="2025-09-03T18:10:45 BDT" name="Surefire suite" finished-at="2025-09-03T18:12:42 BDT" duration-ms="117083">
     <groups>
     </groups>
-    <test started-at="2025-09-03T17:40:38 BDT" name="Surefire test" finished-at="2025-09-03T17:49:41 BDT" duration-ms="542910">
+    <test started-at="2025-09-03T18:10:45 BDT" name="Surefire test" finished-at="2025-09-03T18:12:42 BDT" duration-ms="117083">
       <class name="gaia.tests.DataEntry.TEMDataTest">
-        <test-method is-config="true" signature="globalSetup()[pri:0, instance:gaia.tests.DataEntry.TEMDataTest@3c4bc9fc]" started-at="2025-09-03T17:40:26 BDT" name="globalSetup" finished-at="2025-09-03T17:40:38 BDT" duration-ms="12847" status="PASS">
+        <test-method is-config="true" signature="globalSetup()[pri:0, instance:gaia.tests.DataEntry.TEMDataTest@3af37506]" started-at="2025-09-03T18:10:32 BDT" name="globalSetup" finished-at="2025-09-03T18:10:45 BDT" duration-ms="12555" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- globalSetup -->
-        <test-method is-config="true" signature="initializeDataEntrySessionOnce()[pri:0, instance:gaia.tests.DataEntry.TEMDataTest@3c4bc9fc]" started-at="2025-09-03T17:40:38 BDT" name="initializeDataEntrySessionOnce" finished-at="2025-09-03T17:40:38 BDT" duration-ms="12" status="PASS">
+        <test-method is-config="true" signature="initializeDataEntrySessionOnce()[pri:0, instance:gaia.tests.DataEntry.TEMDataTest@3af37506]" started-at="2025-09-03T18:10:45 BDT" name="initializeDataEntrySessionOnce" finished-at="2025-09-03T18:10:45 BDT" duration-ms="16" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- initializeDataEntrySessionOnce -->
-        <test-method signature="runTEMDataTest1()[pri:0, instance:gaia.tests.DataEntry.TEMDataTest@3c4bc9fc]" started-at="2025-09-03T17:40:38 BDT" name="runTEMDataTest1" finished-at="2025-09-03T17:45:25 BDT" duration-ms="286216" status="PASS">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- runTEMDataTest1 -->
-        <test-method signature="runTEMDataTest2()[pri:0, instance:gaia.tests.DataEntry.TEMDataTest@3c4bc9fc]" started-at="2025-09-03T17:45:25 BDT" name="runTEMDataTest2" finished-at="2025-09-03T17:46:14 BDT" duration-ms="48896" status="PASS">
+        <test-method signature="runTEMDataTest2()[pri:0, instance:gaia.tests.DataEntry.TEMDataTest@3af37506]" started-at="2025-09-03T18:10:45 BDT" name="runTEMDataTest2" finished-at="2025-09-03T18:11:41 BDT" duration-ms="56526" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- runTEMDataTest2 -->
-        <test-method signature="runTEMDataTest3()[pri:0, instance:gaia.tests.DataEntry.TEMDataTest@3c4bc9fc]" started-at="2025-09-03T17:46:14 BDT" name="runTEMDataTest3" finished-at="2025-09-03T17:47:22 BDT" duration-ms="68236" status="PASS">
+        <test-method signature="runTEMDataTest3()[pri:0, instance:gaia.tests.DataEntry.TEMDataTest@3af37506]" started-at="2025-09-03T18:11:41 BDT" name="runTEMDataTest3" finished-at="2025-09-03T18:12:42 BDT" duration-ms="60460" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- runTEMDataTest3 -->
-        <test-method signature="runTEMDataTest4()[pri:0, instance:gaia.tests.DataEntry.TEMDataTest@3c4bc9fc]" started-at="2025-09-03T17:47:22 BDT" name="runTEMDataTest4" finished-at="2025-09-03T17:49:41 BDT" duration-ms="139483" status="PASS">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- runTEMDataTest4 -->
-        <test-method is-config="true" signature="globalTeardown()[pri:0, instance:gaia.tests.DataEntry.TEMDataTest@3c4bc9fc]" started-at="2025-09-03T17:49:41 BDT" name="globalTeardown" finished-at="2025-09-03T17:49:44 BDT" duration-ms="2810" status="PASS">
+        <test-method is-config="true" signature="globalTeardown()[pri:0, instance:gaia.tests.DataEntry.TEMDataTest@3af37506]" started-at="2025-09-03T18:12:42 BDT" name="globalTeardown" finished-at="2025-09-03T18:12:44 BDT" duration-ms="2455" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- globalTeardown -->

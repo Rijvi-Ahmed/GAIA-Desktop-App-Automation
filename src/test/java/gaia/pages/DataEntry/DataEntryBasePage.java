@@ -20,11 +20,7 @@ public class DataEntryBasePage extends BasePage {
     private static final String CUSTOMER_ROW_3 = "//Pane[@AutomationId='SearchEditLookUpPopup']//ListItem[@Name='Row 3']";
     private static final String SAVE_BUTTON = "//Button[@Name='Save']";
     private static final String FIRST_LAB_ID = "//Pane[@AutomationId='OrderCollectionView']//DataItem[@Name='Lab Order row 1']";
-
-    // Tabs and table bases for cross-table validations
-    private static final String TAB_PCM_DATA = "//TabItem[@Name='PCM Data']";
     private static final String TAB_SAMPLES = "//TabItem[@Name='Samples']";
-    private static final String TABLE_PCM_BASE = "//Table[@AutomationId='PCMDataGridControl']";
     private static final String TABLE_SAMPLES_BASE = "//Table[@AutomationId='SamplesGridControl']";
 
     /**
@@ -258,14 +254,14 @@ public class DataEntryBasePage extends BasePage {
         try {
             WindowsElement dataTab = (WindowsElement) cocWait.until(
                     ExpectedConditions.elementToBeClickable(cocDriver.findElementByXPath(
-                        tableName.equals("PCM") ? TAB_PCM_DATA : "//TabItem[@Name='" + tableName + " Data']"
+                        "//TabItem[@Name='" + tableName + " Data']"
                     )));
             clickElement(dataTab);
             pause(300);
         } catch (Exception ignored) {
         }
 
-        String tableBase = tableName.equals("PCM") ? TABLE_PCM_BASE : "//Table[@AutomationId='" + tableName + "DataGridControl']";
+        String tableBase = "//Table[@AutomationId='" + tableName + "DataGridControl']";
         java.util.List<WindowsElement> dataRows = cocDriver.findElementsByXPath(tableBase + "//ListItem");
         java.util.Map<String, String> labIdToCustomer = new java.util.HashMap<>();
         for (int i = 1; i <= (dataRows == null ? 0 : dataRows.size()); i++) {
@@ -338,14 +334,14 @@ public class DataEntryBasePage extends BasePage {
         try {
             WindowsElement dataTab = (WindowsElement) cocWait.until(
                     ExpectedConditions.elementToBeClickable(cocDriver.findElementByXPath(
-                        tableName.equals("PCM") ? TAB_PCM_DATA : "//TabItem[@Name='" + tableName + " Data']"
+                        "//TabItem[@Name='" + tableName + " Data']"
                     )));
             clickElement(dataTab);
             pause(300);
         } catch (Exception ignored) {
         }
 
-        String tableBase = tableName.equals("PCM") ? TABLE_PCM_BASE : "//Table[@AutomationId='" + tableName + "DataGridControl']";
+        String tableBase = "//Table[@AutomationId='" + tableName + "DataGridControl']";
         java.util.List<WindowsElement> dataRows = cocDriver.findElementsByXPath(tableBase + "//ListItem");
         if (dataRows == null || dataRows.size() == 0) {
             if (test != null)

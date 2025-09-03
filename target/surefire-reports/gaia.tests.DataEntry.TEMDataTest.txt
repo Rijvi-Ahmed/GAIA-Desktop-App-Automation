@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: gaia.tests.DataEntry.TEMDataTest
 -------------------------------------------------------------------------------
-Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 560.4 s -- in gaia.tests.DataEntry.TEMDataTest
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 133.9 s -- in gaia.tests.DataEntry.TEMDataTest
