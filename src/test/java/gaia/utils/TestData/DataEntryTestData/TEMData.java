@@ -19,6 +19,7 @@ public class TEMData {
             public static final String TEST1_NAME = "GAIA - Validate all fields are properly filled of TEM Data section";
             public static final String TEST2_NAME = "GAIA - Validate customer ID of TEM Data table is equal to customer ID of Sample table";
             public static final String TEST3_NAME = "GAIA - Vaildate if customer ID is removed from TEM Data table, then it also removes from Sample table";
+            public static final String TEST4_NAME = "GAIA - Vailidate first selected filter value is saved to all rows on this column in the TEM Data table";
         }
     
 }
