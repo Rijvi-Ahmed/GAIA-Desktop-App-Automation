@@ -221,8 +221,8 @@ public class SamplePage extends DataEntryBasePage {
     }
     
     // Table manipulation methods
-    public void fillColumnIfEmptyInSample(String columnName, String prefix) {
-        fillColumnIfEmptyFromBase(SAMPLE_TABLE_BASE, columnName, prefix);
+    public void fillColumnIfEmptyInSample(String columnName, String prefix, ExtentTest test) {
+        fillColumnIfEmptyFromBase(SAMPLE_TABLE_BASE, columnName, prefix, test);
     }
     
     public void validateTableFilledOnSample(List<String> columnsToCheck, ExtentTest test) {

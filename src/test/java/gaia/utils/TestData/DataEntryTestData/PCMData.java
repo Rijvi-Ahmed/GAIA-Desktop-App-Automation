@@ -19,8 +19,7 @@ public class PCMData {
 
     // Test scenarios
     public static class PCMTestScenarios {
-        public static final String TEST1_NAME = "GAIA - Validate all fields of PCM Data section";
-        // public static final String TEST2_NAME = "GAIA - Sample creation with applying
-        // autobase number to verify customer ID";
+        public static final String TEST1_NAME = "GAIA - Validate all fields are properly filled of PCM Data section";
+        public static final String TEST2_NAME = "GAIA - Validate customer ID of PCM Data is equal to customer ID of Sample and if customer ID is removed from PCM Data, then it also removes from Sample";
     }
 }

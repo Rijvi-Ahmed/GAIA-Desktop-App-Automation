@@ -39,7 +39,7 @@ public class DataEntryBasePage extends BasePage {
         int rowCount = rows.size();
         if (rowCount == 0)
             return;
-    
+
         for (int i = 1; i <= rowCount; i++) {
             try {
                 // Focus the cell for this row and column
@@ -48,13 +48,13 @@ public class DataEntryBasePage extends BasePage {
                         ExpectedConditions.elementToBeClickable(cocDriver.findElementByXPath(cellXPath)));
                 clickElement(cell);
                 pause(120);
-    
+
                 // Dropdown should open automatically, so just select the second value
                 List<WindowsElement> options = cocDriver.findElementsByXPath(
                         "//Table[@Name='MainView']//ListItem[contains(@Name,'Row ')]//DataItem[starts-with(@Name,'Name row')]");
                 if (options == null || options.size() < 2)
                     continue;
-    
+
                 WindowsElement second = options.get(1); // zero-based index -> second item
                 try {
                     org.openqa.selenium.remote.RemoteWebElement parentListItem = second
@@ -68,14 +68,18 @@ public class DataEntryBasePage extends BasePage {
                     clickElement(second);
                 }
                 pause(500);
-    
-                // Press TAB then LEFT ARROW to move focus out and commit the value
-                new org.openqa.selenium.interactions.Actions(cocDriver).sendKeys(org.openqa.selenium.Keys.TAB).perform();
-                pause(100);
-                new org.openqa.selenium.interactions.Actions(cocDriver).sendKeys(org.openqa.selenium.Keys.ARROW_LEFT).perform();
-                pause(500); // Slightly longer pause to ensure value is committed
 
-                // Re-fetch the cell and log the saved value
+                // Press ENTER to commit the value
+                new org.openqa.selenium.interactions.Actions(cocDriver).sendKeys(org.openqa.selenium.Keys.ENTER).perform();
+                pause(200);
+                // Click a neutral cell (first cell of first row) to force focus out
+                String neutralCellXPath = tableBase + "//ListItem[@Name='Row 1']//DataItem[1]";
+                WindowsElement neutralCell = (WindowsElement) cocWait.until(
+                        ExpectedConditions.elementToBeClickable(cocDriver.findElementByXPath(neutralCellXPath)));
+                clickElement(neutralCell);
+                pause(400);
+
+                // Now fetch and log the value for row i
                 cell = (WindowsElement) cocWait.until(
                         ExpectedConditions.elementToBeClickable(cocDriver.findElementByXPath(cellXPath)));
                 String afterValue = null;
@@ -98,8 +102,9 @@ public class DataEntryBasePage extends BasePage {
      * @param tableBase  The base XPath for the table
      * @param columnName The name of the column to fill
      * @param prefix     The prefix to use for filling values
+     * @param test       ExtentTest for reporting
      */
-    public void fillColumnIfEmptyFromBase(String tableBase, String columnName, String prefix) {
+    public void fillColumnIfEmptyFromBase(String tableBase, String columnName, String prefix, ExtentTest test) {
         List<WindowsElement> rows = cocDriver.findElementsByXPath(tableBase + "//ListItem");
         int rowCount = rows.size();
         int counter = 1;
@@ -113,7 +118,8 @@ public class DataEntryBasePage extends BasePage {
             String currentValue = getElementValue(cell);
             if (currentValue == null || currentValue.trim().isEmpty()) {
                 cell.click();
-                new org.openqa.selenium.interactions.Actions(cocDriver).sendKeys(prefix + counter++).perform();
+                String fillValue = prefix + counter++;
+                new org.openqa.selenium.interactions.Actions(cocDriver).sendKeys(fillValue).perform();
                 pause(300);
 
                 // If last row, move focus out to commit value
@@ -122,6 +128,17 @@ public class DataEntryBasePage extends BasePage {
                     new org.openqa.selenium.interactions.Actions(cocDriver).sendKeys(org.openqa.selenium.Keys.TAB)
                             .perform();
                     pause(200);
+                }
+                String logMsg = "Row " + i + " - " + columnName + " filled with value: " + fillValue;
+                System.out.println(logMsg);
+                if (test != null) {
+                    test.info(logMsg);
+                }
+            } else {
+                String logMsg = "Row " + i + " - " + columnName + " already filled with value: " + currentValue;
+                System.out.println(logMsg);
+                if (test != null) {
+                    test.info(logMsg);
                 }
             }
         }
@@ -249,10 +266,8 @@ public class DataEntryBasePage extends BasePage {
         java.util.List<WindowsElement> pcmRows = cocDriver.findElementsByXPath(TABLE_PCM_BASE + "//ListItem");
         java.util.Map<String, String> labIdToPcmCustomer = new java.util.HashMap<>();
         for (int i = 1; i <= (pcmRows == null ? 0 : pcmRows.size()); i++) {
-            String labXPath = TABLE_PCM_BASE + "//ListItem[@Name='Row " + i + "']//DataItem[@Name='Lab ID row " + i
-                    + "']";
-            String custXPath = TABLE_PCM_BASE + "//ListItem[@Name='Row " + i + "']//DataItem[@Name='Customer ID row "
-                    + i + "']";
+            String labXPath = TABLE_PCM_BASE + "//ListItem[@Name='Row " + i + "]//DataItem[@Name='Lab ID row " + i + "]";
+            String custXPath = TABLE_PCM_BASE + "//ListItem[@Name='Row " + i + "]//DataItem[@Name='Customer ID row " + i + "]";
             try {
                 WindowsElement labCell = cocDriver.findElementByXPath(labXPath);
                 WindowsElement custCell = cocDriver.findElementByXPath(custXPath);
@@ -275,11 +290,10 @@ public class DataEntryBasePage extends BasePage {
         }
 
         java.util.List<WindowsElement> sampleRows = cocDriver.findElementsByXPath(TABLE_SAMPLES_BASE + "//ListItem");
+        java.util.List<String> mismatchedLabIds = new java.util.ArrayList<>();
         for (int i = 1; i <= (sampleRows == null ? 0 : sampleRows.size()); i++) {
-            String labXPath = TABLE_SAMPLES_BASE + "//ListItem[@Name='Row " + i + "']//DataItem[@Name='Lab ID row " + i
-                    + "']";
-            String custXPath = TABLE_SAMPLES_BASE + "//ListItem[@Name='Row " + i
-                    + "']//DataItem[@Name='Customer ID row " + i + "']";
+            String labXPath = TABLE_SAMPLES_BASE + "//ListItem[@Name='Row " + i + "]//DataItem[@Name='Lab ID row " + i + "]";
+            String custXPath = TABLE_SAMPLES_BASE + "//ListItem[@Name='Row " + i + "]//DataItem[@Name='Customer ID row " + i + "]";
             try {
                 WindowsElement labCell = cocDriver.findElementByXPath(labXPath);
                 WindowsElement custCell = cocDriver.findElementByXPath(custXPath);
@@ -288,14 +302,25 @@ public class DataEntryBasePage extends BasePage {
                 if (labId == null || labId.trim().isEmpty())
                     continue;
                 String pcmCust = labIdToPcmCustomer.get(labId);
-                if (pcmCust != null && pcmCust.equals(sampleCust)) {
-                    String msg = "Customer ID match for Lab ID '" + labId + "': " + sampleCust;
-                    if (test != null)
-                        test.info(msg);
-                    System.out.println(msg);
+                if (pcmCust != null) {
+                    if (pcmCust.equals(sampleCust)) {
+                        String msg = "Customer ID match for Lab ID '" + labId + "': " + sampleCust;
+                        if (test != null)
+                            test.info(msg);
+                        System.out.println(msg);
+                    } else {
+                        mismatchedLabIds.add(labId + " (PCM='" + pcmCust + "', Sample='" + sampleCust + "')");
+                    }
                 }
             } catch (Exception ignored) {
             }
+        }
+        if (mismatchedLabIds.isEmpty()) {
+            if (test != null) test.pass("All Customer IDs match for each Lab ID present in both PCM and Sample tables.");
+        } else {
+            String msg = "Customer ID mismatches found for Lab IDs: " + String.join(", ", mismatchedLabIds);
+            if (test != null) test.fail(msg);
+            System.out.println(msg);
         }
     }
 
@@ -417,7 +442,7 @@ public class DataEntryBasePage extends BasePage {
 
         if (isBlank) {
             if (test != null)
-                test.pass("Customer ID is blank in Samples for Lab ID '" + targetLabId + "' after clearing in PCM");
+                test.pass("Customer ID is blank in Samples table for Lab ID '" + targetLabId + "' after clearing from PCM table");
         } else {
             if (test != null)
                 test.fail("Customer ID is not blank in Samples for Lab ID '" + targetLabId + "' after clearing in PCM");

@@ -20,8 +20,8 @@ public class PCMDataPage extends DataEntryBasePage {
         clickElement(PCMDataTab);
     }
 
-    public void fillColumnIfEmptyInPcm(String columnName, String prefix) {
-        fillColumnIfEmptyFromBase(PCM_TABLE_BASE, columnName, prefix);
+    public void fillColumnIfEmptyInPcm(String columnName, String prefix, ExtentTest test) {
+        fillColumnIfEmptyFromBase(PCM_TABLE_BASE, columnName, prefix, test);
     }
 
     public void CustomerIdMatchingBetweenPcmAndSample(ExtentTest test){
@@ -44,5 +44,6 @@ public class PCMDataPage extends DataEntryBasePage {
     public void validateTableFilledonPcm(List<String> columnsToCheck, ExtentTest test) {
         validateTableFilled(PCM_TABLE_BASE, columnsToCheck, test);
     }
+
 
 }
