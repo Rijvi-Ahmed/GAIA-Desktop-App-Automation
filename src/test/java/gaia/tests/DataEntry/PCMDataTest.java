@@ -35,6 +35,9 @@ public class PCMDataTest extends DataEntryBaseTest {
             pcmDataPage.selectTimeUnitForAllRows(test);
             test.pass("Selected value of Time Unit for all rows");
 
+            // Validate table after filling
+            pcmDataPage.validateTableFilledonPcm(PCMData.PCMTestData.COLUMNS_TO_CHECK, test);
+
 
 
         } catch (Exception e) {

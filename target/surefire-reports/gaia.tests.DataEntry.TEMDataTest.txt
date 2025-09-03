@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
-Test set: gaia.tests.DataEntry.PCMDataTest
+Test set: gaia.tests.DataEntry.TEMDataTest
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 243.5 s -- in gaia.tests.DataEntry.PCMDataTest
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 276.7 s -- in gaia.tests.DataEntry.TEMDataTest
