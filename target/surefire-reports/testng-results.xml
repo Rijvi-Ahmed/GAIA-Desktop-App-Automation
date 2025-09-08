@@ -1,37 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results ignored="0" total="3" passed="3" failed="0" skipped="0">
+<testng-results ignored="0" total="4" passed="4" failed="0" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2025-09-08T16:01:44 BDT" name="Surefire suite" finished-at="2025-09-08T16:02:59 BDT" duration-ms="74843">
+  <suite started-at="2025-09-08T18:42:55 BDT" name="Surefire suite" finished-at="2025-09-08T18:52:40 BDT" duration-ms="585110">
     <groups>
     </groups>
-    <test started-at="2025-09-08T16:01:44 BDT" name="Surefire test" finished-at="2025-09-08T16:02:59 BDT" duration-ms="74843">
-      <class name="gaia.tests.DataEntry.PCMDataTest">
-        <test-method is-config="true" signature="globalSetup()[pri:0, instance:gaia.tests.DataEntry.PCMDataTest@3961a41a]" started-at="2025-09-08T16:01:36 BDT" name="globalSetup" finished-at="2025-09-08T16:01:44 BDT" duration-ms="8362" status="PASS">
+    <test started-at="2025-09-08T18:42:55 BDT" name="Surefire test" finished-at="2025-09-08T18:52:40 BDT" duration-ms="585110">
+      <class name="gaia.tests.DataEntry.TEMDataTest">
+        <test-method is-config="true" signature="globalSetup()[pri:0, instance:gaia.tests.DataEntry.TEMDataTest@3c4bc9fc]" started-at="2025-09-08T18:42:37 BDT" name="globalSetup" finished-at="2025-09-08T18:42:55 BDT" duration-ms="17971" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- globalSetup -->
-        <test-method is-config="true" signature="initializeDataEntrySessionOnce()[pri:0, instance:gaia.tests.DataEntry.PCMDataTest@3961a41a]" started-at="2025-09-08T16:01:44 BDT" name="initializeDataEntrySessionOnce" finished-at="2025-09-08T16:01:44 BDT" duration-ms="24" status="PASS">
+        <test-method is-config="true" signature="initializeDataEntrySessionOnce()[pri:0, instance:gaia.tests.DataEntry.TEMDataTest@3c4bc9fc]" started-at="2025-09-08T18:42:55 BDT" name="initializeDataEntrySessionOnce" finished-at="2025-09-08T18:42:55 BDT" duration-ms="24" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- initializeDataEntrySessionOnce -->
-        <test-method signature="runPCMDataTest1()[pri:0, instance:gaia.tests.DataEntry.PCMDataTest@3961a41a]" started-at="2025-09-08T16:01:44 BDT" name="runPCMDataTest1" finished-at="2025-09-08T16:02:58 BDT" duration-ms="73519" status="PASS">
+        <test-method signature="runTEMDataTest1()[pri:0, instance:gaia.tests.DataEntry.TEMDataTest@3c4bc9fc]" started-at="2025-09-08T18:42:55 BDT" name="runTEMDataTest1" finished-at="2025-09-08T18:48:31 BDT" duration-ms="336208" status="PASS">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- runPCMDataTest1 -->
-        <test-method signature="runPCMDataTest2()[pri:0, instance:gaia.tests.DataEntry.PCMDataTest@3961a41a]" started-at="2025-09-08T16:02:58 BDT" name="runPCMDataTest2" finished-at="2025-09-08T16:02:59 BDT" duration-ms="1107" status="PASS">
+        </test-method> <!-- runTEMDataTest1 -->
+        <test-method signature="runTEMDataTest2()[pri:0, instance:gaia.tests.DataEntry.TEMDataTest@3c4bc9fc]" started-at="2025-09-08T18:48:31 BDT" name="runTEMDataTest2" finished-at="2025-09-08T18:49:25 BDT" duration-ms="53885" status="PASS">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- runPCMDataTest2 -->
-        <test-method signature="runPCMDataTest3()[pri:0, instance:gaia.tests.DataEntry.PCMDataTest@3961a41a]" started-at="2025-09-08T16:02:59 BDT" name="runPCMDataTest3" finished-at="2025-09-08T16:02:59 BDT" duration-ms="133" status="PASS">
+        </test-method> <!-- runTEMDataTest2 -->
+        <test-method signature="runTEMDataTest3()[pri:0, instance:gaia.tests.DataEntry.TEMDataTest@3c4bc9fc]" started-at="2025-09-08T18:49:25 BDT" name="runTEMDataTest3" finished-at="2025-09-08T18:50:42 BDT" duration-ms="77372" status="PASS">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- runPCMDataTest3 -->
-        <test-method is-config="true" signature="globalTeardown()[pri:0, instance:gaia.tests.DataEntry.PCMDataTest@3961a41a]" started-at="2025-09-08T16:02:59 BDT" name="globalTeardown" finished-at="2025-09-08T16:03:00 BDT" duration-ms="1620" status="PASS">
+        </test-method> <!-- runTEMDataTest3 -->
+        <test-method signature="runTEMDataTest4()[pri:0, instance:gaia.tests.DataEntry.TEMDataTest@3c4bc9fc]" started-at="2025-09-08T18:50:42 BDT" name="runTEMDataTest4" finished-at="2025-09-08T18:52:40 BDT" duration-ms="117506" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- runTEMDataTest4 -->
+        <test-method is-config="true" signature="globalTeardown()[pri:0, instance:gaia.tests.DataEntry.TEMDataTest@3c4bc9fc]" started-at="2025-09-08T18:52:40 BDT" name="globalTeardown" finished-at="2025-09-08T18:52:43 BDT" duration-ms="3468" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- globalTeardown -->
-      </class> <!-- gaia.tests.DataEntry.PCMDataTest -->
+      </class> <!-- gaia.tests.DataEntry.TEMDataTest -->
     </test> <!-- Surefire test -->
   </suite> <!-- Surefire suite -->
 </testng-results>
