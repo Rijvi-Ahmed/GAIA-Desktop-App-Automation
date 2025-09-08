@@ -81,7 +81,7 @@ public class TEMDataTest extends DataEntryBaseTest {
         }
 
         long endTime = System.currentTimeMillis();
-        System.out.println("Test 1 completed in " + (endTime - startTime) / 1000.0 + " seconds");
+        System.out.println("Test 2 completed in " + (endTime - startTime) / 1000.0 + " seconds");
     }
 
     @Test
@@ -116,7 +116,7 @@ public class TEMDataTest extends DataEntryBaseTest {
         }
 
         long endTime = System.currentTimeMillis();
-        System.out.println("Test 1 completed in " + (endTime - startTime) / 1000.0 + " seconds");
+        System.out.println("Test 3 completed in " + (endTime - startTime) / 1000.0 + " seconds");
     }
 
     @Test
@@ -151,7 +151,7 @@ public class TEMDataTest extends DataEntryBaseTest {
         }
 
         long endTime = System.currentTimeMillis();
-        System.out.println("Test 1 completed in " + (endTime - startTime) / 1000.0 + " seconds");
+        System.out.println("Test 4 completed in " + (endTime - startTime) / 1000.0 + " seconds");
     }
 
 }
