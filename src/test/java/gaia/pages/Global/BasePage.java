@@ -30,8 +30,10 @@ public class BasePage {
     
     // Common utility methods
     protected void pause(long millis) {
+        long capped = Math.min(millis, 100); // cap pauses to 100ms to speed tests
+        if (capped <= 0) return;
         try {
-            Thread.sleep(millis);
+            Thread.sleep(capped);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
@@ -39,12 +41,10 @@ public class BasePage {
     
     protected void clickElement(WindowsElement element) {
         element.click();
-        pause(1000);
     }
 
     protected void clickElement(RemoteWebElement element) {
         element.click();
-        pause(1000);
     }
 
     protected void doubleClickElement(WindowsElement element) {
@@ -55,7 +55,6 @@ public class BasePage {
     protected void enterText(WindowsElement element, String text) {
         element.click();
         new Actions(cocDriver).sendKeys(text).perform();
-        pause(1000);
     }
     
     protected void clearText(WindowsElement element) {
@@ -66,7 +65,6 @@ public class BasePage {
             .keyUp(Keys.CONTROL)
             .sendKeys(Keys.DELETE)
             .perform();
-        pause(500);
     }
     
     protected String getElementValue(WindowsElement element) {

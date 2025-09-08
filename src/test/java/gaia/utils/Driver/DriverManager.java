@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.net.Socket;
 
 public class DriverManager {
     
@@ -83,10 +84,19 @@ public class DriverManager {
         pb.directory(file.getParentFile());
         pb.start();
 
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
+        // Wait up to ~3s for WinAppDriver to listen on 4723 without hard sleeping
+        long start = System.currentTimeMillis();
+        while (System.currentTimeMillis() - start < 3000) {
+            try (Socket s = new Socket("127.0.0.1", 4723)) {
+                break; // port is open
+            } catch (IOException ignored) {
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    break;
+                }
+            }
         }
     }
 

@@ -92,7 +92,7 @@
               <div class="suite-section-content">
                 <ul>
                   <li>
-                    <span class="method-stats">2 methods,   2 passed</span>
+                    <span class="method-stats">3 methods,   3 passed</span>
                   </li>
                   <li>
                     <span class="method-list-title passed">Passed methods</span>
@@ -103,12 +103,17 @@
                     <div class="method-list-content passed suite-Surefire_suite">
                       <span>
                         <img src="passed.png" width="3%"/>
-                        <a href="#" panel-name="suite-Surefire_suite" title="gaia.tests.DataEntry.TEMDataTest" class="method navigator-link" hash-for-method="runTEMDataTest2">runTEMDataTest2</a> <!-- method navigator-link -->
+                        <a href="#" panel-name="suite-Surefire_suite" title="gaia.tests.DataEntry.PCMDataTest" class="method navigator-link" hash-for-method="runPCMDataTest1">runPCMDataTest1</a> <!-- method navigator-link -->
                       </span>
                       <br/>
                       <span>
                         <img src="passed.png" width="3%"/>
-                        <a href="#" panel-name="suite-Surefire_suite" title="gaia.tests.DataEntry.TEMDataTest" class="method navigator-link" hash-for-method="runTEMDataTest3">runTEMDataTest3</a> <!-- method navigator-link -->
+                        <a href="#" panel-name="suite-Surefire_suite" title="gaia.tests.DataEntry.PCMDataTest" class="method navigator-link" hash-for-method="runPCMDataTest2">runPCMDataTest2</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img src="passed.png" width="3%"/>
+                        <a href="#" panel-name="suite-Surefire_suite" title="gaia.tests.DataEntry.PCMDataTest" class="method navigator-link" hash-for-method="runPCMDataTest3">runPCMDataTest3</a> <!-- method navigator-link -->
                       </span>
                       <br/>
                     </div> <!-- method-list-content passed suite-Surefire_suite -->
@@ -126,21 +131,28 @@
           <div class="suite-Surefire_suite-class-passed">
             <div class="main-panel-header rounded-window-top">
               <img src="passed.png"/>
-              <span class="class-name">gaia.tests.DataEntry.TEMDataTest</span>
+              <span class="class-name">gaia.tests.DataEntry.PCMDataTest</span>
             </div> <!-- main-panel-header rounded-window-top -->
             <div class="main-panel-content rounded-window-bottom">
               <div class="method">
                 <div class="method-content">
-                  <a name="runTEMDataTest2">
-                  </a> <!-- runTEMDataTest2 -->
-                  <span class="method-name">runTEMDataTest2</span>
+                  <a name="runPCMDataTest1">
+                  </a> <!-- runPCMDataTest1 -->
+                  <span class="method-name">runPCMDataTest1</span>
                 </div> <!-- method-content -->
               </div> <!-- method -->
               <div class="method">
                 <div class="method-content">
-                  <a name="runTEMDataTest3">
-                  </a> <!-- runTEMDataTest3 -->
-                  <span class="method-name">runTEMDataTest3</span>
+                  <a name="runPCMDataTest2">
+                  </a> <!-- runPCMDataTest2 -->
+                  <span class="method-name">runPCMDataTest2</span>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="runPCMDataTest3">
+                  </a> <!-- runPCMDataTest3 -->
+                  <span class="method-name">runPCMDataTest3</span>
                 </div> <!-- method-content -->
               </div> <!-- method -->
             </div> <!-- main-panel-content rounded-window-bottom -->
@@ -156,7 +168,7 @@
 &lt;suite name=&quot;Surefire suite&quot; verbose=&quot;0&quot;&gt;
   &lt;test thread-count=&quot;5&quot; name=&quot;Surefire test&quot; verbose=&quot;0&quot;&gt;
     &lt;classes&gt;
-      &lt;class name=&quot;gaia.tests.DataEntry.TEMDataTest&quot;/&gt;
+      &lt;class name=&quot;gaia.tests.DataEntry.PCMDataTest&quot;/&gt;
     &lt;/classes&gt;
   &lt;/test&gt; &lt;!-- Surefire test --&gt;
 &lt;/suite&gt; &lt;!-- Surefire suite --&gt;
@@ -196,15 +208,19 @@ data.addColumn('number', 'Number');
 data.addColumn('string', 'Method');
 data.addColumn('string', 'Class');
 data.addColumn('number', 'Time (ms)');
-data.addRows(2);
+data.addRows(3);
 data.setCell(0, 0, 0)
-data.setCell(0, 1, 'runTEMDataTest3')
-data.setCell(0, 2, 'gaia.tests.DataEntry.TEMDataTest')
-data.setCell(0, 3, 60460);
+data.setCell(0, 1, 'runPCMDataTest1')
+data.setCell(0, 2, 'gaia.tests.DataEntry.PCMDataTest')
+data.setCell(0, 3, 73519);
 data.setCell(1, 0, 1)
-data.setCell(1, 1, 'runTEMDataTest2')
-data.setCell(1, 2, 'gaia.tests.DataEntry.TEMDataTest')
-data.setCell(1, 3, 56526);
+data.setCell(1, 1, 'runPCMDataTest2')
+data.setCell(1, 2, 'gaia.tests.DataEntry.PCMDataTest')
+data.setCell(1, 3, 1107);
+data.setCell(2, 0, 2)
+data.setCell(2, 1, 'runPCMDataTest3')
+data.setCell(2, 2, 'gaia.tests.DataEntry.PCMDataTest')
+data.setCell(2, 3, 133);
 window.suiteTableData['Surefire_suite']= { tableData: data, tableDiv: 'times-div-Surefire_suite'}
 return data;
 }
@@ -235,26 +251,30 @@ return data;
           </div> <!-- main-panel-header rounded-window-top -->
           <div class="main-panel-content rounded-window-bottom">
             <div class="chronological-class">
-              <div class="chronological-class-name">gaia.tests.DataEntry.TEMDataTest</div> <!-- chronological-class-name -->
+              <div class="chronological-class-name">gaia.tests.DataEntry.PCMDataTest</div> <!-- chronological-class-name -->
               <div class="configuration-suite before">
                 <span class="method-name">globalSetup</span>
                 <span class="method-start">0 ms</span>
               </div> <!-- configuration-suite before -->
               <div class="configuration-class before">
                 <span class="method-name">initializeDataEntrySessionOnce</span>
-                <span class="method-start">12599 ms</span>
+                <span class="method-start">8391 ms</span>
               </div> <!-- configuration-class before -->
               <div class="test-method">
-                <span class="method-name">runTEMDataTest2</span>
-                <span class="method-start">12646 ms</span>
+                <span class="method-name">runPCMDataTest1</span>
+                <span class="method-start">8440 ms</span>
               </div> <!-- test-method -->
               <div class="test-method">
-                <span class="method-name">runTEMDataTest3</span>
-                <span class="method-start">69176 ms</span>
+                <span class="method-name">runPCMDataTest2</span>
+                <span class="method-start">81962 ms</span>
+              </div> <!-- test-method -->
+              <div class="test-method">
+                <span class="method-name">runPCMDataTest3</span>
+                <span class="method-start">83070 ms</span>
               </div> <!-- test-method -->
               <div class="configuration-suite after">
                 <span class="method-name">globalTeardown</span>
-                <span class="method-start">129669 ms</span>
+                <span class="method-start">83248 ms</span>
               </div> <!-- configuration-suite after -->
           </div> <!-- main-panel-content rounded-window-bottom -->
         </div> <!-- panel -->
