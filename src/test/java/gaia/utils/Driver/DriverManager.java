@@ -13,12 +13,14 @@ public class DriverManager {
     
     private static WindowsDriver<WindowsElement> driver;
     private static WindowsDriver<WindowsElement> cocDriver;
+    private static WindowsDriver<WindowsElement> batchRunDriver;
     private static WebDriverWait wait;
     private static WebDriverWait cocWait;
+    private static WebDriverWait batchRunWait;
     
     // Paths - defined as constants
     private static final String WIN_APP_DRIVER_PATH = "C:\\Program Files (x86)\\Windows Application Driver\\WinAppDriver.exe";
-    private static final String GAIA_APP_PATH = "C:\\Users\\BS451\\AppData\\Local\\Apps\\2.0\\J0N77Q73.BQO\\AWX4TPKD.0XL\\gaia..tion_c0da4153e47775bf_0000.0001_ae9c7aa7ec161f36\\GAIA.exe";
+    private static final String GAIA_APP_PATH = "C:\\Users\\BS451\\AppData\\Local\\Apps\\2.0\\HQ18D2J7.N71\\G8H7KOQ2.72Q\\gaia..tion_7a24f77242120513_0000.0001_d5d36cc29ad5ae3e\\GAIA.exe";
 
     public static void initializeDrivers() throws Exception {
         // Start WinAppDriver once
@@ -37,11 +39,21 @@ public class DriverManager {
         cocCap.setCapability("appTopLevelWindow", driver.getWindowHandle());
         cocDriver = new WindowsDriver<>(URI.create("http://127.0.0.1:4723").toURL(), cocCap);
         cocWait = new WebDriverWait(cocDriver, 15);
+
+        // Attach to Batch Run window once
+        DesiredCapabilities brCap = new DesiredCapabilities();
+        brCap.setCapability("appTopLevelWindow", driver.getWindowHandle());
+        batchRunDriver = new WindowsDriver<>(URI.create("http://127.0.0.1:4723").toURL(), brCap);
+        batchRunWait = new WebDriverWait(batchRunDriver, 15);
+
     }
 
     public static void quitDrivers() {
         if (cocDriver != null) {
             cocDriver.quit();
+        }
+        if (batchRunDriver != null) {
+            batchRunDriver.quit();
         }
         if (driver != null) {
             driver.quit();
@@ -56,6 +68,10 @@ public class DriverManager {
         return cocDriver;
     }
 
+    public static WindowsDriver<WindowsElement> getBatchRunDriver() {
+        return batchRunDriver;
+    }
+
     public static WebDriverWait getWait() {
         return wait;
     }
@@ -64,14 +80,71 @@ public class DriverManager {
         return cocWait;
     }
 
+    public static WebDriverWait getBatchRunWait() {
+        return batchRunWait;
+    }
+
+    //AttachWindow for COC
     public static void attachCocToMainWindow() throws Exception {
+        attachWindow("//Window[.//*[@AutomationId='ChainOfCustodyView']]", "coc");
+    }
+
+        //AttachWindow for Batch Run.
+    public static void attachBatchRunWindow() throws Exception {
+        attachWindow("//Window[.//*[@AutomationId='BatchRunView']]", "batchrun");
+    }
+
+    /**
+     * Generic window attach helper that can attach either COC or BatchRun window
+     * based on provided xpath and target key ("coc" or "batchrun").
+     */
+    public static void attachWindow(String windowXPath, String target) throws Exception {
         if (driver == null) {
             throw new IllegalStateException("Main driver is not initialized");
         }
-        DesiredCapabilities cocCap = new DesiredCapabilities();
-        cocCap.setCapability("appTopLevelWindow", driver.getWindowHandle());
-        cocDriver = new WindowsDriver<>(URI.create("http://127.0.0.1:4723").toURL(), cocCap);
-        cocWait = new WebDriverWait(cocDriver, 15);
+
+        WindowsElement targetWindow = null;
+        try {
+            targetWindow = driver.findElementByXPath(windowXPath);
+        } catch (Exception ignored) {}
+
+        if (targetWindow == null && cocDriver != null) {
+            try {
+                targetWindow = cocDriver.findElementByXPath(windowXPath);
+            } catch (Exception ignored) {}
+        }
+
+        if (targetWindow == null) {
+            throw new IllegalStateException("Target window not found for xpath: " + windowXPath);
+        }
+
+        String handleDec = targetWindow.getAttribute("NativeWindowHandle");
+        if (handleDec == null || handleDec.isEmpty()) {
+            throw new IllegalStateException("NativeWindowHandle not available for target window");
+        }
+        String handleHex = Integer.toHexString(Integer.parseInt(handleDec));
+
+        DesiredCapabilities cap = new DesiredCapabilities();
+        cap.setCapability("appTopLevelWindow", handleHex);
+        WindowsDriver<WindowsElement> session = new WindowsDriver<>(URI.create("http://127.0.0.1:4723").toURL(), cap);
+        WebDriverWait sessionWait = new WebDriverWait(session, 15);
+
+        if ("coc".equalsIgnoreCase(target)) {
+            if (cocDriver != null) {
+                try { cocDriver.quit(); } catch (Exception ignored) {}
+            }
+            cocDriver = session;
+            cocWait = sessionWait;
+        } else if ("batchrun".equalsIgnoreCase(target)) {
+            if (batchRunDriver != null) {
+                try { batchRunDriver.quit(); } catch (Exception ignored) {}
+            }
+            batchRunDriver = session;
+            batchRunWait = sessionWait;
+        } else {
+            try { session.quit(); } catch (Exception ignored) {}
+            throw new IllegalArgumentException("Unknown target: " + target + " (expected 'coc' or 'batchrun')");
+        }
     }
 
     // Start WinAppDriver

@@ -18,14 +18,18 @@ public class BasePage {
     
     protected WindowsDriver<WindowsElement> driver;
     protected WindowsDriver<WindowsElement> cocDriver;
+    protected WindowsDriver<WindowsElement> batchRunDriver;
     protected WebDriverWait wait;
     protected WebDriverWait cocWait;
+    protected WebDriverWait batchRunWait;
     
     public BasePage() {
         this.driver = DriverManager.getDriver();
         this.cocDriver = DriverManager.getCocDriver();
         this.wait = DriverManager.getWait();
         this.cocWait = DriverManager.getCocWait();
+        this.batchRunDriver = DriverManager.getBatchRunDriver();
+        this.batchRunWait = DriverManager.getBatchRunWait();
     }
     
     // Common utility methods

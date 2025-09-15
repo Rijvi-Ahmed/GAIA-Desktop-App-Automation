@@ -36,6 +36,9 @@ public class DataEntryBaseTest extends BaseTest {
 		if (DriverManager.getCocDriver() == null) {
 			DriverManager.attachCocToMainWindow();
 		}
+		if (DriverManager.getBatchRunDriver() == null) {
+			DriverManager.attachBatchRunWindow();
+		}
 		//when run individual test case, need to comment this line
 		// if (!sessionInitialized) {
         //     dataEntryBasePage.setupDataEntrySession();
