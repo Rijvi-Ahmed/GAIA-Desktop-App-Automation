@@ -4,7 +4,6 @@ import java.util.List;
  
 
 import org.openqa.selenium.support.ui.ExpectedConditions;
-
 import io.appium.java_client.windows.WindowsElement;
 import com.aventstack.extentreports.ExtentTest;
 

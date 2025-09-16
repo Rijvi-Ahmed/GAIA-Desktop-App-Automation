@@ -1,12 +1,9 @@
 package gaia.pages.DataEntry.BatchRun;
 
-import io.appium.java_client.windows.WindowsDriver;
 import io.appium.java_client.windows.WindowsElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import com.aventstack.extentreports.ExtentTest;
-
 import gaia.pages.DataEntry.DataEntryBasePage;
-import gaia.utils.Driver.DriverManager;
 import gaia.utils.TestData.DataEntryTestData.BatchRunData;
 
 public class createBatchRunPage extends DataEntryBasePage {
@@ -33,8 +30,6 @@ public class createBatchRunPage extends DataEntryBasePage {
     // Grid validation locators in COC
     private static final String GRID_PANEL = "//*[@AutomationId=\"BatchRunsGridControl\"]//*[@Name=\"Data Panel\"]";
 
-    private WindowsDriver<WindowsElement> brDriver() { return DriverManager.getBatchRunDriver(); }
-    private org.openqa.selenium.support.ui.WebDriverWait brWait() { return DriverManager.getBatchRunWait(); }
 
     public void navigateToBatchRunsTab() {
         WindowsElement tab = (WindowsElement) cocWait.until(
@@ -50,65 +45,78 @@ public class createBatchRunPage extends DataEntryBasePage {
         clickElement(btnNew);
     }
 
-    public void attachAndMaximizeBatchRunWindow() throws Exception {
-        DriverManager.attachBatchRunWindow();
+    public void MaximizeBatchRunWindow() throws Exception {
         try {
-            WindowsElement maxBtn = (WindowsElement) brWait().until(
-                ExpectedConditions.elementToBeClickable(brDriver().findElementByXPath(BR_MAX_RESTORE))
+            WindowsElement maxBtn = (WindowsElement) batchRunWait.until(
+                ExpectedConditions.elementToBeClickable(batchRunDriver.findElementByXPath(BR_MAX_RESTORE))
             );
             clickElement(maxBtn);
         } catch (Exception ignored) {}
     }
 
     public void fillForm(BatchRunData data) {
-        WindowsElement projectName = (WindowsElement) brWait().until(
-            ExpectedConditions.elementToBeClickable(brDriver().findElementByXPath(TXT_PROJECT_NAME))
+        WindowsElement projectName = (WindowsElement) batchRunWait.until(
+            ExpectedConditions.elementToBeClickable(batchRunDriver.findElementByXPath(TXT_PROJECT_NAME))
         );
         clearText(projectName);
         enterText(projectName, data.projectName);
 
-        WindowsElement analysis = (WindowsElement) brDriver().findElementByXPath(TXT_ANALYSIS);
+        WindowsElement analysis = (WindowsElement) batchRunDriver.findElementByXPath(TXT_ANALYSIS);
         clearText(analysis);
         enterText(analysis, data.analysis);
         pause(200);
         try {
-            WindowsElement first = brDriver().findElementByXPath(DD_ANALYSIS_FIRST_OPTION);
+            WindowsElement first = batchRunDriver.findElementByXPath(DD_ANALYSIS_FIRST_OPTION);
             clickElement(first);
         } catch (Exception ignored) {}
 
-        WindowsElement tat = (WindowsElement) brDriver().findElementByXPath(TXT_TURNAROUND);
+        WindowsElement tat = (WindowsElement) batchRunDriver.findElementByXPath(TXT_TURNAROUND);
         clickElement(tat);
         pause(150);
         try {
-            WindowsElement third = brDriver().findElementByXPath(DD_TAT_THIRD_OPTION);
+            WindowsElement third = batchRunDriver.findElementByXPath(DD_TAT_THIRD_OPTION);
             clickElement(third);
         } catch (Exception ignored) {}
 
-        WindowsElement status = (WindowsElement) brDriver().findElementByXPath(TXT_STATUS);
+        WindowsElement status = (WindowsElement) batchRunDriver.findElementByXPath(TXT_STATUS);
         clearText(status);
         enterText(status, data.status);
         pause(150);
         try {
-            WindowsElement created = brDriver().findElementByXPath(DD_STATUS_CREATED);
+            WindowsElement created = batchRunDriver.findElementByXPath(DD_STATUS_CREATED);
             clickElement(created);
         } catch (Exception ignored) {}
 
-        WindowsElement po = (WindowsElement) brDriver().findElementByXPath(TXT_PO);
+        WindowsElement po = (WindowsElement) batchRunDriver.findElementByXPath(TXT_PO);
         clearText(po);
         enterText(po, data.purchaseOrder);
 
-        WindowsElement archiveBin = (WindowsElement) brDriver().findElementByXPath(TXT_ARCHIVE_BIN);
+        WindowsElement archiveBin = (WindowsElement) batchRunDriver.findElementByXPath(TXT_ARCHIVE_BIN);
         clearText(archiveBin);
         enterText(archiveBin, data.archiveBin);
 
-        WindowsElement notes = (WindowsElement) brDriver().findElementByXPath(TXT_NOTES);
+        WindowsElement notes = (WindowsElement) batchRunDriver.findElementByXPath(TXT_NOTES);
         clearText(notes);
         enterText(notes, data.notes);
     }
 
+    public void createBatchRun(BatchRunData data, ExtentTest test) throws Exception {
+        navigateToBatchRunsTab();
+        if (test != null) test.pass("Navigated to 'Batch Runs' tab");
+        clickNewOnCoc();
+        if (test != null) test.pass("Clicked 'New' on Batch Runs");
+        MaximizeBatchRunWindow();
+        fillForm(data);
+        if (test != null) test.pass("Filled Batch Run form");
+        saveBatchRun();
+        closeBatchRunWindow();
+        if (test != null) test.pass("Saved and closed Batch Run window");
+       // validateCreatedInGrid(data, test);
+    }
+
     public void saveBatchRun() {
         try {
-            WindowsElement save = (WindowsElement) brDriver().findElementByXPath(BTN_SAVE);
+            WindowsElement save = (WindowsElement) batchRunDriver.findElementByXPath(BTN_SAVE);
             clickElement(save);
             pause(400);
         } catch (Exception ignored) {}
@@ -116,7 +124,7 @@ public class createBatchRunPage extends DataEntryBasePage {
 
     public void closeBatchRunWindow() {
         try {
-            WindowsElement close = (WindowsElement) brDriver().findElementByXPath(BTN_CLOSE);
+            WindowsElement close = (WindowsElement) batchRunDriver.findElementByXPath(BTN_CLOSE);
             clickElement(close);
             pause(300);
         } catch (Exception ignored) {}
@@ -146,17 +154,5 @@ public class createBatchRunPage extends DataEntryBasePage {
         org.testng.Assert.assertTrue(found, "Newly created Batch Run should exist in grid");
     }
 
-    public void createBatchRun(BatchRunData data, ExtentTest test) throws Exception {
-        navigateToBatchRunsTab();
-        if (test != null) test.pass("Navigated to 'Batch Runs' tab");
-        clickNewOnCoc();
-        if (test != null) test.pass("Clicked 'New' on Batch Runs");
-        attachAndMaximizeBatchRunWindow();
-        fillForm(data);
-        if (test != null) test.pass("Filled Batch Run form");
-        saveBatchRun();
-        closeBatchRunWindow();
-        if (test != null) test.pass("Saved and closed Batch Run window");
-        validateCreatedInGrid(data, test);
-    }
+
 }

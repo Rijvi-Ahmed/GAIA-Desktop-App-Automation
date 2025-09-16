@@ -9,7 +9,6 @@ import gaia.pages.DataEntry.DataEntryBasePage;
 import gaia.pages.DataEntry.PCMDataPage;
 import gaia.pages.DataEntry.TEMDataPage;
 import gaia.tests.Global.BaseTest;
-import gaia.utils.Driver.DriverManager;
 
 public class DataEntryBaseTest extends BaseTest {
 
@@ -32,12 +31,6 @@ public class DataEntryBaseTest extends BaseTest {
 		}
 		if (pcmDataPage == null) {
 			pcmDataPage = new PCMDataPage();
-		}
-		if (DriverManager.getCocDriver() == null) {
-			DriverManager.attachCocToMainWindow();
-		}
-		if (DriverManager.getBatchRunDriver() == null) {
-			DriverManager.attachBatchRunWindow();
 		}
 		//when run individual test case, need to comment this line
 		// if (!sessionInitialized) {

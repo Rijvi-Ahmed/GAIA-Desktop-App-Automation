@@ -18,6 +18,7 @@ gaia\pages\Global\BasePage.class
 gaia\utils\TestData\DataEntryTestData\PCMData.class
 gaia\utils\TestData\DataEntryTestData\SampleData$SampleTestScenarios.class
 gaia\utils\Driver\DriverManager.class
+gaia\tests\DataEntry\BatchRun\createBatchRunTest.class
 gaia\utils\TestData\DataEntryTestData\TEMData$TEMTestScenarios.class
 gaia\utils\TestData\DataEntryTestData\TEMData$TEMTestData.class
 gaia\tests\DataEntry\DataEntryBaseTest.class

@@ -84,68 +84,6 @@ public class DriverManager {
         return batchRunWait;
     }
 
-    //AttachWindow for COC
-    public static void attachCocToMainWindow() throws Exception {
-        attachWindow("//Window[.//*[@AutomationId='ChainOfCustodyView']]", "coc");
-    }
-
-        //AttachWindow for Batch Run.
-    public static void attachBatchRunWindow() throws Exception {
-        attachWindow("//Window[.//*[@AutomationId='BatchRunView']]", "batchrun");
-    }
-
-    /**
-     * Generic window attach helper that can attach either COC or BatchRun window
-     * based on provided xpath and target key ("coc" or "batchrun").
-     */
-    public static void attachWindow(String windowXPath, String target) throws Exception {
-        if (driver == null) {
-            throw new IllegalStateException("Main driver is not initialized");
-        }
-
-        WindowsElement targetWindow = null;
-        try {
-            targetWindow = driver.findElementByXPath(windowXPath);
-        } catch (Exception ignored) {}
-
-        if (targetWindow == null && cocDriver != null) {
-            try {
-                targetWindow = cocDriver.findElementByXPath(windowXPath);
-            } catch (Exception ignored) {}
-        }
-
-        if (targetWindow == null) {
-            throw new IllegalStateException("Target window not found for xpath: " + windowXPath);
-        }
-
-        String handleDec = targetWindow.getAttribute("NativeWindowHandle");
-        if (handleDec == null || handleDec.isEmpty()) {
-            throw new IllegalStateException("NativeWindowHandle not available for target window");
-        }
-        String handleHex = Integer.toHexString(Integer.parseInt(handleDec));
-
-        DesiredCapabilities cap = new DesiredCapabilities();
-        cap.setCapability("appTopLevelWindow", handleHex);
-        WindowsDriver<WindowsElement> session = new WindowsDriver<>(URI.create("http://127.0.0.1:4723").toURL(), cap);
-        WebDriverWait sessionWait = new WebDriverWait(session, 15);
-
-        if ("coc".equalsIgnoreCase(target)) {
-            if (cocDriver != null) {
-                try { cocDriver.quit(); } catch (Exception ignored) {}
-            }
-            cocDriver = session;
-            cocWait = sessionWait;
-        } else if ("batchrun".equalsIgnoreCase(target)) {
-            if (batchRunDriver != null) {
-                try { batchRunDriver.quit(); } catch (Exception ignored) {}
-            }
-            batchRunDriver = session;
-            batchRunWait = sessionWait;
-        } else {
-            try { session.quit(); } catch (Exception ignored) {}
-            throw new IllegalArgumentException("Unknown target: " + target + " (expected 'coc' or 'batchrun')");
-        }
-    }
 
     // Start WinAppDriver
     private static void startWinAppDriver(String path) throws IOException {
