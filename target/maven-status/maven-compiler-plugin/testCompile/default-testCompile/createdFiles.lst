@@ -1,4 +1,5 @@
 gaia\pages\DataEntry\SamplePage.class
+gaia\utils\TestData\DataEntryTestData\BatchRunData$BatchRunTestScenarios.class
 gaia\pages\DataEntry\DataEntryBasePage.class
 gaia\utils\TestData\DataEntryTestData\BatchRunData.class
 gaia\tests\Global\BaseTest.class

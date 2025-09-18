@@ -53,6 +53,7 @@ public class createBatchRunPage extends DataEntryBasePage {
             clickElement(maxBtn);
         } catch (Exception ignored) {}
     }
+    // Removed date capture as validation is by Analysis only
 
     public void fillForm(BatchRunData data) {
         WindowsElement projectName = (WindowsElement) batchRunWait.until(
@@ -100,20 +101,6 @@ public class createBatchRunPage extends DataEntryBasePage {
         enterText(notes, data.notes);
     }
 
-    public void createBatchRun(BatchRunData data, ExtentTest test) throws Exception {
-        navigateToBatchRunsTab();
-        if (test != null) test.pass("Navigated to 'Batch Runs' tab");
-        clickNewOnCoc();
-        if (test != null) test.pass("Clicked 'New' on Batch Runs");
-        MaximizeBatchRunWindow();
-        fillForm(data);
-        if (test != null) test.pass("Filled Batch Run form");
-        saveBatchRun();
-        closeBatchRunWindow();
-        if (test != null) test.pass("Saved and closed Batch Run window");
-       // validateCreatedInGrid(data, test);
-    }
-
     public void saveBatchRun() {
         try {
             WindowsElement save = (WindowsElement) batchRunDriver.findElementByXPath(BTN_SAVE);
@@ -130,28 +117,74 @@ public class createBatchRunPage extends DataEntryBasePage {
         } catch (Exception ignored) {}
     }
 
-    public void validateCreatedInGrid(BatchRunData data, ExtentTest test) {
+    public void createBatchRun(BatchRunData data, ExtentTest test) throws Exception {
+        navigateToBatchRunsTab();
+        if (test != null) test.pass("Navigated to 'Batch Runs' tab");
+        clickNewOnCoc();
+        if (test != null) test.pass("Clicked 'New' on Batch Runs");
+        MaximizeBatchRunWindow();
+        fillForm(data);
+        if (test != null) test.pass("Filled Batch Run form for creating a batch run");
+        saveBatchRun();
+        closeBatchRunWindow();
+        if (test != null) test.pass("Saved and closed Batch Run window");
+    }
+
+    public void validateCreatedBatchRunByAnalysis(BatchRunData data, ExtentTest test) {
         navigateToBatchRunsTab();
         try {
             cocWait.until(ExpectedConditions.visibilityOf(cocDriver.findElementByXPath(GRID_PANEL)));
         } catch (Exception ignored) {}
 
-        java.util.List<WindowsElement> rows = cocDriver.findElementsByXPath("//*[@AutomationId='BatchRunsGridControl']//ListItem");
+        // Give the grid a brief moment to refresh and populate rows
+        for (int retry = 0; retry < 10; retry++) {
+            java.util.List<WindowsElement> r = cocDriver.findElementsByXPath("//*[@AutomationId='BatchRunsGridControl']//ListItem");
+            if (r != null && r.size() > 0) break;
+            pause(200);
+        }
+
+        String gridBase = "//*[@AutomationId='BatchRunsGridControl']";
+        java.util.List<WindowsElement> rows = cocDriver.findElementsByXPath(gridBase + "//ListItem");
         boolean found = false;
-        for (WindowsElement row : rows) {
+        for (int i = 1; i <= (rows == null ? 0 : rows.size()); i++) {
             try {
-                String rowName = row.getAttribute("Name");
-                if (rowName != null && rowName.toLowerCase().contains(data.analysis.toLowerCase()) && rowName.toLowerCase().contains(data.status.toLowerCase())) {
-                    found = true;
-                    break;
+                // Analysis cell: try explicit header; fallback to common variants and row name
+                String[] analysisHeaders = new String[] { "Analysis", "Service", "Analysis Type" };
+                boolean analysisMatches = false;
+                for (String header : analysisHeaders) {
+                    try {
+                        String analysisCellXPath = gridBase + "//ListItem[@Name='Row " + i + "']//DataItem[contains(@Name,'" + header + " row " + i + "')]";
+                        WindowsElement analysisCell = cocDriver.findElementByXPath(analysisCellXPath);
+                        String analysisText = getElementValue(analysisCell);
+                        if (analysisText == null || analysisText.trim().isEmpty()) {
+                            analysisText = analysisCell.getAttribute("Name");
+                        }
+                        if (analysisText != null && data != null && data.analysis != null &&
+                            analysisText.toLowerCase().contains(data.analysis.toLowerCase())) {
+                            analysisMatches = true;
+                            break;
+                        }
+                    } catch (Exception ignoredInner) {}
                 }
+
+                if (!analysisMatches) {
+                    try {
+                        WindowsElement row = cocDriver.findElementByXPath(gridBase + "//ListItem[@Name='Row " + i + "']");
+                        String rowName = row.getAttribute("Name");
+                        analysisMatches = (rowName != null && data != null && data.analysis != null) &&
+                                rowName.toLowerCase().contains(data.analysis.toLowerCase());
+                    } catch (Exception ignoredInner) {}
+                }
+
+                if (analysisMatches) { found = true; break; }
             } catch (Exception ignored) {}
         }
         if (test != null) {
-            if (found) test.pass("Batch Run created and visible in grid with Analysis='" + data.analysis + "' and Status='" + data.status + "'.");
-            else test.fail("Batch Run not found in grid for Analysis='" + data.analysis + "' and Status='" + data.status + "'.");
+            String analysisForMsg = (data != null && data.analysis != null) ? data.analysis : "";
+            if (found) test.pass("Batch Run created and visible in batch run table with Analysis='" + analysisForMsg + "'.");
+            else test.fail("Batch Run not found in the batch run table for Analysis='" + analysisForMsg + "'.");
         }
-        org.testng.Assert.assertTrue(found, "Newly created Batch Run should exist in grid");
+        org.testng.Assert.assertTrue(found, "Newly created Batch Run exist in batch run table.");
     }
 
 

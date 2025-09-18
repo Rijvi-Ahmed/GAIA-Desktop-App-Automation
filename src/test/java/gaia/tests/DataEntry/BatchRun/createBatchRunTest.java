@@ -12,7 +12,7 @@ public class createBatchRunTest extends DataEntryBaseTest {
     @Test
     public void runCreateBatchRunTest1() throws Exception {
         long startTime = System.currentTimeMillis();
-        ExtentTest test = createTest("Create Batch Run");
+        ExtentTest test = createTest(BatchRunData.BatchRunTestScenarios.TEST1_NAME);
 
         createBatchRunPage page = new createBatchRunPage();
         BatchRunData data = BatchRunData.defaultData();
@@ -24,6 +24,7 @@ public class createBatchRunTest extends DataEntryBaseTest {
             page.firstLabID();
 
             page.createBatchRun(data, test);
+            page.validateCreatedBatchRunByAnalysis(data, test);
 
         } catch (Exception e) {
             page.captureScreenshot("Failure_" + System.currentTimeMillis());
