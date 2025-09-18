@@ -31,7 +31,7 @@ public class BatchRunData {
       // Test scenarios
       public static class BatchRunTestScenarios {
         public static final String TEST1_NAME = "GAIA - Create a batch run";
-    //     public static final String TEST2_NAME = "GAIA - Sample creation with applying autobase number to verify customer ID";
+        public static final String TEST2_NAME = "GAIA - Sample creation with applying autobase number to verify customer ID";
     //     public static final String TEST3_NAME = "GAIA - Sample creation without applying autobase value to verify customer ID";
     //     public static final String TEST4_NAME = "GAIA - Layer creation for a selected sample";
     //     public static final String TEST5_NAME = "GAIA - Layer creation for a slected sample whose customer ID is blank";
