@@ -9,6 +9,7 @@
             <class name="gaia.tests.DataEntry.TEMDataTest"/>
             <class name="gaia.tests.DataEntry.PCMDataTest"/>
             <class name="gaia.tests.DataEntry.BatchRun.createBatchRunTest"/>
+            <class name="gaia.tests.Customers.CustomerTest"/>
         </classes>
     </test>
     
