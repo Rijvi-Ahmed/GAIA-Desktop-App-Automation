@@ -500,5 +500,6 @@ public class SamplePage extends DataEntryBasePage {
         if (test != null) {
             test.info("Selected first newly created sample (Row " + targetIndex + ") - Lab ID: " + labIdValue + ", Customer ID: " + customerIdValue);
         }
+        pause(200);
     }
 }
