@@ -31,7 +31,6 @@ public class PCMDataPage extends DataEntryBasePage {
         clearCustomerIdAndValidateCustomerIdBlankOnSample(test, "PCM");
     }
 
-
     public void selectVolumeUnitForAllRows(ExtentTest test) {
         selectValueFromDropdownColumnForAllRows(PCM_TABLE_BASE, "Volume Unit", test);
     }

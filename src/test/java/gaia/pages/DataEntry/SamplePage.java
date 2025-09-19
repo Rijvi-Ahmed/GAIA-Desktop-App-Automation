@@ -469,12 +469,12 @@ public class SamplePage extends DataEntryBasePage {
         // Click OK
         WindowsElement okButton = driver.findElementByXPath(BLANK_CUSTOMER_ID_OK_BUTTON);
         clickElement(okButton);
-        pause(200);
+        pause(100);
     }
 
     public void selectFirstOfLastCreatedSamples(int lastNSamples, ExtentTest test) {
         // Allow table to update after creation
-        pause(500);
+        pause(300);
         List<WindowsElement> rows = cocDriver.findElementsByXPath(SAMPLE_TABLE_BASE + "//ListItem");
         int rowCount = rows.size();
         if (rowCount == 0) {
