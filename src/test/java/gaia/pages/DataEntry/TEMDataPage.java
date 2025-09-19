@@ -119,6 +119,9 @@ public class TEMDataPage extends DataEntryBasePage {
             String msg = "All rows have the same filter value ('" + firstValue + "') for the selected value ('" + firstValue + "') on the first row on column '" + ColumnName + "'.";
             test.pass(msg);
             System.out.println(msg);
+        } else {
+            String msg = "Not all rows have the same filter value as the first row for column '" + ColumnName + "'.";
+            test.fail(msg);
         }
     }
 }
